@@ -2,1112 +2,101 @@
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
-    <meta name="theme-color" content="#0D9488" id="themeColorMeta">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="سفرینو">
-    <meta name="description" content="اپلیکیشن مدیریت هزینه‌های گروهی سفر">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="theme-color" content="#0D9488">
     <title>🏝️ سفرینو - مدیریت هزینه سفر</title>
     
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏝️</text></svg>">
-    <link rel="manifest" href="data:application/json,{'name':'سفرینو','short_name':'سفرینو','start_url':'.','display':'standalone','background_color':'%230F172A','theme_color':'%230D9488'}">
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
-    
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <style>
         :root {
-            --font-scale: 1;
-            --font-xs: calc(0.7rem * var(--font-scale));
-            --font-sm: calc(0.8rem * var(--font-scale));
-            --font-base: calc(0.9rem * var(--font-scale));
-            --font-md: calc(1rem * var(--font-scale));
-            --font-lg: calc(1.1rem * var(--font-scale));
-            --font-xl: calc(1.3rem * var(--font-scale));
-            --font-2xl: calc(1.6rem * var(--font-scale));
-            --font-3xl: calc(2rem * var(--font-scale));
-            
-            --anim-fast: 0.15s;
-            --anim-normal: 0.25s;
-            --anim-slow: 0.4s;
-            
-            --space-xs: 4px;
-            --space-sm: 8px;
-            --space-md: 12px;
-            --space-lg: 16px;
-            --space-xl: 20px;
-            --space-2xl: 24px;
-            --space-3xl: 32px;
-            
-            --radius-sm: 8px;
-            --radius: 12px;
-            --radius-lg: 16px;
-            --radius-xl: 24px;
-            --radius-full: 9999px;
-            
-            --safe-top: env(safe-area-inset-top, 0px);
-            --safe-bottom: env(safe-area-inset-bottom, 0px);
-            --safe-left: env(safe-area-inset-left, 0px);
-            --safe-right: env(safe-area-inset-right, 0px);
-        }
-
-        :root, [data-theme="night"] {
             --primary: #0D9488;
             --primary-light: #14B8A6;
             --primary-dark: #0F766E;
-            --primary-glow: rgba(13, 148, 136, 0.4);
-            --primary-gradient: linear-gradient(135deg, #14B8A6 0%, #0D9488 50%, #0F766E 100%);
-            
             --secondary: #F97316;
-            --secondary-light: #FB923C;
-            --secondary-gradient: linear-gradient(135deg, #FB923C 0%, #F97316 100%);
-            
             --success: #10B981;
-            --success-light: #34D399;
-            --success-bg: rgba(16, 185, 129, 0.15);
-            --success-gradient: linear-gradient(135deg, #34D399 0%, #10B981 100%);
-            
             --danger: #EF4444;
-            --danger-light: #F87171;
-            --danger-bg: rgba(239, 68, 68, 0.15);
-            --danger-gradient: linear-gradient(135deg, #F87171 0%, #EF4444 100%);
-            
             --warning: #F59E0B;
-            --warning-light: #FBBF24;
-            --warning-bg: rgba(245, 158, 11, 0.15);
-            --warning-gradient: linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%);
-            
             --info: #3B82F6;
-            --info-light: #60A5FA;
-            --info-bg: rgba(59, 130, 246, 0.15);
-            --info-gradient: linear-gradient(135deg, #60A5FA 0%, #3B82F6 100%);
-            
-            --purple: #8B5CF6;
-            --purple-light: #A78BFA;
-            --purple-bg: rgba(139, 92, 246, 0.15);
             
             --bg-primary: #0F172A;
             --bg-secondary: #1E293B;
             --bg-tertiary: #334155;
-            --bg-hover: #3F4F6B;
             
-            --text-primary: #FFFFFF;
-            --text-secondary: #E2E8F0;
-            --text-muted: #94A3B8;
-            --text-disabled: #64748B;
+            --text-primary: #F8FAFC;
+            --text-secondary: #CBD5E1;
+            --text-muted: #64748B;
             
-            --glass: rgba(255, 255, 255, 0.08);
-            --glass-light: rgba(255, 255, 255, 0.12);
+            --glass: rgba(255, 255, 255, 0.1);
             --glass-border: rgba(255, 255, 255, 0.15);
-            --glass-strong: rgba(255, 255, 255, 0.2);
             
-            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
-            --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.4);
-            --shadow-glow: 0 0 30px var(--primary-glow);
+            --radius: 12px;
+            --radius-lg: 16px;
+            --radius-full: 50px;
+            
+            --shadow: 0 4px 20px rgba(0,0,0,0.3);
+            --shadow-lg: 0 8px 40px rgba(0,0,0,0.4);
+            
+            --safe-bottom: env(safe-area-inset-bottom, 0px);
         }
 
         [data-theme="day"] {
-            --primary: #2563EB;
-            --primary-light: #3B82F6;
-            --primary-dark: #1D4ED8;
-            --primary-glow: rgba(37, 99, 235, 0.3);
-            --primary-gradient: linear-gradient(135deg, #3B82F6 0%, #2563EB 50%, #1D4ED8 100%);
-            
-            --bg-primary: #F8FAFC;
+            --bg-primary: #F1F5F9;
             --bg-secondary: #FFFFFF;
-            --bg-tertiary: #F1F5F9;
-            --bg-hover: #E2E8F0;
-            
+            --bg-tertiary: #E2E8F0;
             --text-primary: #0F172A;
-            --text-secondary: #334155;
-            --text-muted: #64748B;
-            --text-disabled: #94A3B8;
-            
-            --glass: rgba(0, 0, 0, 0.03);
-            --glass-light: rgba(0, 0, 0, 0.05);
+            --text-secondary: #475569;
+            --text-muted: #94A3B8;
+            --glass: rgba(0, 0, 0, 0.05);
             --glass-border: rgba(0, 0, 0, 0.1);
-            --glass-strong: rgba(0, 0, 0, 0.08);
-            
-            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
-            --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.15);
         }
 
         [data-theme="sunset"] {
             --primary: #F97316;
             --primary-light: #FB923C;
-            --primary-dark: #EA580C;
-            --primary-glow: rgba(249, 115, 22, 0.4);
-            --primary-gradient: linear-gradient(135deg, #FB923C 0%, #F97316 50%, #EA580C 100%);
-            
             --bg-primary: #1C1917;
             --bg-secondary: #292524;
             --bg-tertiary: #44403C;
-            --bg-hover: #57534E;
         }
 
         [data-theme="ocean"] {
             --primary: #0EA5E9;
             --primary-light: #38BDF8;
-            --primary-dark: #0284C7;
-            --primary-glow: rgba(14, 165, 233, 0.4);
-            --primary-gradient: linear-gradient(135deg, #38BDF8 0%, #0EA5E9 50%, #0284C7 100%);
-            
             --bg-primary: #0C1929;
             --bg-secondary: #152238;
             --bg-tertiary: #1E3A5F;
-            --bg-hover: #2A4A6F;
         }
 
         [data-theme="forest"] {
             --primary: #22C55E;
             --primary-light: #4ADE80;
-            --primary-dark: #16A34A;
-            --primary-glow: rgba(34, 197, 94, 0.4);
-            --primary-gradient: linear-gradient(135deg, #4ADE80 0%, #22C55E 50%, #16A34A 100%);
-            
             --bg-primary: #14201A;
             --bg-secondary: #1A2F23;
             --bg-tertiary: #264032;
-            --bg-hover: #325240;
         }
 
-        [data-font-size="small"] { --font-scale: 0.85; }
-        [data-font-size="medium"] { --font-scale: 1; }
-        [data-font-size="large"] { --font-scale: 1.15; }
-        [data-font-size="xlarge"] { --font-scale: 1.3; }
-
-        *, *::before, *::after {
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
         }
 
-        html {
-            scroll-behavior: smooth;
-            font-size: 16px;
-        }
+        html { scroll-behavior: smooth; }
 
         body {
-            font-family: 'Vazirmatn', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            font-size: var(--font-base);
+            font-family: 'Vazirmatn', system-ui, sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
             line-height: 1.6;
             min-height: 100vh;
-            min-height: 100dvh;
             overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            padding-top: var(--safe-top);
-            transition: background-color var(--anim-normal), color var(--anim-normal);
         }
 
-        *:focus { outline: none; }
-        *:focus-visible {
-            outline: 2px solid var(--primary);
-            outline-offset: 2px;
-        }
-
-        ::selection {
-            background: var(--primary);
-            color: white;
-        }
-
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { 
-            background: var(--text-muted); 
-            border-radius: 3px;
-        }
-        ::-webkit-scrollbar-thumb:hover { background: var(--text-disabled); }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeInScale {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        @keyframes slideUp {
-            from { transform: translateY(100%); }
-            to { transform: translateY(0); }
-        }
-
-        @keyframes slideDown {
-            from { transform: translateY(-100%); }
-            to { transform: translateY(0); }
-        }
-
-        @keyframes slideInRight {
-            from { transform: translateX(100%); }
-            to { transform: translateX(0); }
-        }
-
-        @keyframes slideInLeft {
-            from { transform: translateX(-100%); }
-            to { transform: translateX(0); }
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            25% { transform: translateY(-5px) rotate(1deg); }
-            50% { transform: translateY(-10px) rotate(0deg); }
-            75% { transform: translateY(-5px) rotate(-1deg); }
-        }
-
-        @keyframes shimmer {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
-        }
-
-        @keyframes confetti {
-            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
-        }
-
-        @keyframes ripple {
-            to { transform: scale(4); opacity: 0; }
-        }
-
-        .animate-fade-in { animation: fadeIn var(--anim-normal) ease forwards; }
-        .animate-fade-in-up { animation: fadeInUp var(--anim-normal) ease forwards; opacity: 0; }
-        .animate-fade-in-down { animation: fadeInDown var(--anim-normal) ease forwards; }
-        .animate-fade-in-scale { animation: fadeInScale var(--anim-normal) ease forwards; }
-        .animate-slide-up { animation: slideUp var(--anim-slow) cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-        .animate-pulse { animation: pulse 2s ease-in-out infinite; }
-        .animate-bounce { animation: bounce 1s ease infinite; }
-        .animate-float { animation: float 4s ease-in-out infinite; }
-        .animate-spin { animation: spin 1s linear infinite; }
-
-        .stagger-1 { animation-delay: 0.05s; }
-        .stagger-2 { animation-delay: 0.1s; }
-        .stagger-3 { animation-delay: 0.15s; }
-        .stagger-4 { animation-delay: 0.2s; }
-        .stagger-5 { animation-delay: 0.25s; }
-        .stagger-6 { animation-delay: 0.3s; }
-        .stagger-7 { animation-delay: 0.35s; }
-        .stagger-8 { animation-delay: 0.4s; }
-
-        .container {
-            max-width: 520px;
-            margin: 0 auto;
-            padding: 0 var(--space-lg);
-            position: relative;
-            z-index: 1;
-        }
-
-        .screen {
-            display: none;
-            min-height: 100vh;
-            min-height: 100dvh;
-            padding-bottom: calc(140px + var(--safe-bottom));
-        }
-
-        .screen.active {
-            display: block;
-            animation: fadeIn var(--anim-normal) ease;
-        }
-
-        .bg-animation {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: 0;
-            overflow: hidden;
-        }
-
-        .bg-animation::before {
-            content: '';
-            position: absolute;
-            width: 150%;
-            height: 150%;
-            top: -25%;
-            left: -25%;
-            background: 
-                radial-gradient(circle at 20% 20%, var(--primary-glow) 0%, transparent 40%),
-                radial-gradient(circle at 80% 80%, rgba(249, 115, 22, 0.1) 0%, transparent 40%),
-                radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.05) 0%, transparent 50%);
-            animation: float 30s ease-in-out infinite;
-        }
-
-        .bg-animation::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noise)'/%3E%3C/svg%3E");
-            opacity: 0.03;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: var(--space-sm);
-            padding: var(--space-md) var(--space-xl);
-            border-radius: var(--radius-full);
-            font-size: var(--font-base);
-            font-weight: 600;
-            font-family: inherit;
-            border: none;
-            cursor: pointer;
-            transition: all var(--anim-fast);
-            text-decoration: none;
-            position: relative;
-            overflow: hidden;
-            min-height: 48px;
-            white-space: nowrap;
-            user-select: none;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(rgba(255,255,255,0.1), transparent);
-            opacity: 0;
-            transition: opacity var(--anim-fast);
-        }
-
-        .btn:hover::before { opacity: 1; }
-        .btn:active { transform: scale(0.97); }
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .btn-primary {
-            background: var(--primary-gradient);
-            color: white;
-            box-shadow: 0 4px 20px var(--primary-glow);
-        }
-        .btn-primary:hover {
-            box-shadow: 0 6px 30px var(--primary-glow);
-            transform: translateY(-2px);
-        }
-
-        .btn-secondary {
-            background: var(--secondary-gradient);
-            color: white;
-            box-shadow: 0 4px 20px rgba(249, 115, 22, 0.3);
-        }
-
-        .btn-success {
-            background: var(--success-gradient);
-            color: white;
-            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3);
-        }
-
-        .btn-danger {
-            background: var(--danger-gradient);
-            color: white;
-            box-shadow: 0 4px 20px rgba(239, 68, 68, 0.3);
-        }
-
-        .btn-warning {
-            background: var(--warning-gradient);
-            color: white;
-            box-shadow: 0 4px 20px rgba(245, 158, 11, 0.3);
-        }
-
-        .btn-info {
-            background: var(--info-gradient);
-            color: white;
-            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
-        }
-
-        .btn-outline {
-            background: var(--glass);
-            border: 2px solid var(--glass-border);
-            color: var(--text-primary);
-            backdrop-filter: blur(10px);
-        }
-        .btn-outline:hover {
-            background: var(--glass-light);
-            border-color: var(--primary);
-        }
-
-        .btn-ghost {
-            background: transparent;
-            color: var(--text-muted);
-            padding: var(--space-sm);
-        }
-        .btn-ghost:hover {
-            background: var(--glass);
-            color: var(--text-primary);
-        }
-
-        .btn-lg {
-            padding: var(--space-lg) var(--space-2xl);
-            font-size: var(--font-lg);
-            min-height: 56px;
-        }
-
-        .btn-sm {
-            padding: var(--space-sm) var(--space-md);
-            font-size: var(--font-sm);
-            min-height: 36px;
-        }
-
-        .btn-icon {
-            width: 48px;
-            height: 48px;
-            padding: 0;
-            border-radius: var(--radius);
-        }
-
-        .btn-icon-sm {
-            width: 40px;
-            height: 40px;
-            padding: 0;
-            border-radius: var(--radius-sm);
-        }
-
-        .btn-fab {
-            position: fixed;
-            bottom: calc(100px + var(--safe-bottom));
-            left: 50%;
-            transform: translateX(-50%);
-            width: 64px;
-            height: 64px;
-            border-radius: 50%;
-            font-size: 1.5rem;
-            z-index: 99;
-            box-shadow: 0 8px 30px var(--primary-glow);
-        }
-
-        .btn-group {
-            display: flex;
-            gap: var(--space-sm);
-        }
-
-        .btn-group .btn { flex: 1; }
-
-        .form-group {
-            margin-bottom: var(--space-xl);
-        }
-
-        .form-label {
-            display: flex;
-            align-items: center;
-            gap: var(--space-sm);
-            margin-bottom: var(--space-sm);
-            font-size: var(--font-sm);
-            font-weight: 600;
-            color: var(--text-secondary);
-        }
-
-        .form-label .required {
-            color: var(--danger);
-        }
-
-        .form-input {
-            width: 100%;
-            padding: var(--space-md) var(--space-lg);
-            background: var(--bg-tertiary);
-            border: 2px solid var(--glass-border);
-            border-radius: var(--radius);
-            color: var(--text-primary);
-            font-size: var(--font-base);
-            font-family: inherit;
-            transition: all var(--anim-fast);
-        }
-
-        .form-input:hover {
-            border-color: var(--text-muted);
-        }
-
-        .form-input:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px var(--primary-glow);
-            background: var(--bg-secondary);
-        }
-
-        .form-input::placeholder {
-            color: var(--text-disabled);
-        }
-
-        .form-input:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .form-input.error {
-            border-color: var(--danger);
-            box-shadow: 0 0 0 3px var(--danger-bg);
-        }
-
-        .form-hint {
-            font-size: var(--font-xs);
-            color: var(--text-muted);
-            margin-top: var(--space-sm);
-            display: flex;
-            align-items: center;
-            gap: var(--space-xs);
-        }
-
-        .form-hint.error {
-            color: var(--danger);
-        }
-
-        .form-select {
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394A3B8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: left 12px center;
-            background-size: 20px;
-            padding-left: 44px;
-            cursor: pointer;
-        }
-
-        .form-textarea {
-            min-height: 100px;
-            resize: vertical;
-        }
-
-        .input-group {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-
-        .input-group .form-input {
-            padding-right: 44px;
-        }
-
-        .input-group .input-icon {
-            position: absolute;
-            right: var(--space-md);
-            color: var(--text-muted);
-            font-size: 1.2rem;
-            pointer-events: none;
-        }
-
-        .input-group .input-suffix {
-            position: absolute;
-            left: var(--space-md);
-            color: var(--text-muted);
-            font-size: var(--font-sm);
-        }
-
-        .card {
-            background: var(--bg-secondary);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius-xl);
-            padding: var(--space-xl);
-            margin-bottom: var(--space-lg);
-            transition: all var(--anim-fast);
-        }
-
-        .card:hover {
-            border-color: var(--glass-strong);
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: var(--space-lg);
-        }
-
-        .card-title {
-            font-size: var(--font-md);
-            font-weight: 700;
-            color: var(--text-primary);
-            display: flex;
-            align-items: center;
-            gap: var(--space-sm);
-        }
-
-        .card-badge {
-            background: var(--primary);
-            color: white;
-            font-size: var(--font-xs);
-            padding: 2px 10px;
-            border-radius: var(--radius-full);
-            font-weight: 600;
-        }
-
-        .card-body {
-            color: var(--text-secondary);
-        }
-
-        .card-footer {
-            margin-top: var(--space-lg);
-            padding-top: var(--space-lg);
-            border-top: 1px solid var(--glass-border);
-        }
-
-        .card-gradient {
-            background: var(--primary-gradient);
-            border: none;
-            color: white;
-        }
-
-        .card-gradient * {
-            color: white !important;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            z-index: 2000;
-            align-items: flex-end;
-            justify-content: center;
-            padding: 0;
-        }
-
-        .modal.active {
-            display: flex;
-            animation: fadeIn var(--anim-fast) ease;
-        }
-
-        .modal-content {
-            background: var(--bg-secondary);
-            border-radius: var(--radius-xl) var(--radius-xl) 0 0;
-            width: 100%;
-            max-width: 520px;
-            max-height: 90vh;
-            max-height: 90dvh;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            animation: slideUp var(--anim-slow) cubic-bezier(0.16, 1, 0.3, 1);
-            box-shadow: 0 -10px 50px rgba(0, 0, 0, 0.5);
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: var(--space-xl);
-            border-bottom: 1px solid var(--glass-border);
-            background: var(--bg-tertiary);
-            flex-shrink: 0;
-        }
-
-        .modal-title {
-            font-size: var(--font-lg);
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: var(--space-sm);
-        }
-
-        .modal-close {
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--glass);
-            border: none;
-            border-radius: 50%;
-            color: var(--text-muted);
-            font-size: 1.5rem;
-            cursor: pointer;
-            transition: all var(--anim-fast);
-        }
-
-        .modal-close:hover {
-            background: var(--danger);
-            color: white;
-            transform: rotate(90deg);
-        }
-
-        .modal-body {
-            padding: var(--space-xl);
-            overflow-y: auto;
-            flex: 1;
-            overscroll-behavior: contain;
-        }
-
-        .modal-footer {
-            padding: var(--space-lg) var(--space-xl);
-            border-top: 1px solid var(--glass-border);
-            background: var(--bg-tertiary);
-            flex-shrink: 0;
-        }
-
-        .modal-center .modal-content {
-            border-radius: var(--radius-xl);
-            max-width: 400px;
-            margin: auto;
-            animation: fadeInScale var(--anim-normal) ease;
-        }
-
-        .top-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: calc(56px + var(--safe-top));
-            padding-top: var(--safe-top);
-            background: var(--bg-secondary);
-            border-bottom: 1px solid var(--glass-border);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding-left: var(--space-lg);
-            padding-right: var(--space-lg);
-            transition: all var(--anim-fast);
-        }
-
-        .top-bar.scrolled {
-            box-shadow: var(--shadow);
-        }
-
-        .top-bar-title {
-            font-size: var(--font-lg);
-            font-weight: 700;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .top-bar-actions {
-            display: flex;
-            gap: var(--space-sm);
-        }
-
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: var(--bg-secondary);
-            border-top: 1px solid var(--glass-border);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            display: flex;
-            justify-content: space-around;
-            padding: var(--space-sm) 0;
-            padding-bottom: calc(var(--space-sm) + var(--safe-bottom));
-            z-index: 1000;
-        }
-
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 2px;
-            padding: var(--space-sm) var(--space-md);
-            color: var(--text-muted);
-            font-size: var(--font-xs);
-            font-weight: 500;
-            cursor: pointer;
-            border: none;
-            background: none;
-            font-family: inherit;
-            transition: all var(--anim-fast);
-            border-radius: var(--radius);
-            min-width: 64px;
-            position: relative;
-        }
-
-        .nav-item .icon {
-            font-size: 1.5rem;
-            transition: transform var(--anim-fast);
-        }
-
-        .nav-item:hover {
-            color: var(--text-secondary);
-        }
-
-        .nav-item:hover .icon {
-            transform: scale(1.1);
-        }
-
-        .nav-item.active {
-            color: var(--primary-light);
-        }
-
-        .nav-item.active .icon {
-            transform: scale(1.15);
-        }
-
-        .nav-item.active::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 4px;
-            height: 4px;
-            background: var(--primary);
-            border-radius: 50%;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: var(--space-md);
-            margin-bottom: var(--space-xl);
-        }
-
-        .stat-card {
-            background: var(--bg-secondary);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius-lg);
-            padding: var(--space-lg);
-            text-align: center;
-            transition: all var(--anim-fast);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            opacity: 0.1;
-            transform: translate(20px, -20px);
-        }
-
-        .stat-card:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow);
-        }
-
-        .stat-icon {
-            font-size: 1.8rem;
-            margin-bottom: var(--space-sm);
-            display: block;
-        }
-
-        .stat-value {
-            font-size: var(--font-xl);
-            font-weight: 800;
-            color: var(--text-primary);
-            margin-bottom: 2px;
-            font-feature-settings: 'tnum';
-        }
-
-        .stat-label {
-            font-size: var(--font-xs);
-            color: var(--text-muted);
-        }
-
-        .stat-card.success { border-color: var(--success); }
-        .stat-card.success .stat-value { color: var(--success); }
-        .stat-card.success::before { background: var(--success); }
-
-        .stat-card.danger { border-color: var(--danger); }
-        .stat-card.danger .stat-value { color: var(--danger); }
-        .stat-card.danger::before { background: var(--danger); }
-
-        .stat-card.warning { border-color: var(--warning); }
-        .stat-card.warning .stat-value { color: var(--warning); }
-        .stat-card.warning::before { background: var(--warning); }
-
-        .stat-card.info { border-color: var(--info); }
-        .stat-card.info .stat-value { color: var(--info); }
-        .stat-card.info::before { background: var(--info); }
-
-        .list-item {
-            display: flex;
-            align-items: center;
-            gap: var(--space-md);
-            padding: var(--space-md);
-            background: var(--bg-tertiary);
-            border-radius: var(--radius-lg);
-            margin-bottom: var(--space-sm);
-            cursor: pointer;
-            transition: all var(--anim-fast);
-            border: 1px solid transparent;
-        }
-
-        .list-item:hover {
-            background: var(--bg-hover);
-            border-color: var(--glass-border);
-            transform: translateX(-4px);
-        }
-
-        .list-item:active {
-            transform: scale(0.98);
-        }
-
-        .list-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: var(--radius);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.4rem;
-            flex-shrink: 0;
-        }
-
-        .list-icon.food { background: linear-gradient(135deg, #FEE2E2, #FECACA); }
-        .list-icon.transport { background: linear-gradient(135deg, #DBEAFE, #BFDBFE); }
-        .list-icon.stay { background: linear-gradient(135deg, #E0E7FF, #C7D2FE); }
-        .list-icon.fun { background: linear-gradient(135deg, #FCE7F3, #FBCFE8); }
-        .list-icon.shopping { background: linear-gradient(135deg, #FEF3C7, #FDE68A); }
-        .list-icon.other { background: linear-gradient(135deg, #E2E8F0, #CBD5E1); }
-        .list-icon.deposit { background: linear-gradient(135deg, #D1FAE5, #A7F3D0); }
-        .list-icon.withdraw { background: linear-gradient(135deg, #FEE2E2, #FECACA); }
-
-        .list-content {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .list-title {
-            font-weight: 600;
-            font-size: var(--font-base);
-            color: var(--text-primary);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            margin-bottom: 2px;
-        }
-
-        .list-meta {
-            font-size: var(--font-xs);
-            color: var(--text-muted);
-            display: flex;
-            align-items: center;
-            gap: var(--space-sm);
-        }
-
-        .list-amount {
-            font-weight: 700;
-            font-size: var(--font-md);
-            flex-shrink: 0;
-            font-feature-settings: 'tnum';
-        }
-
-        .list-amount.positive { color: var(--success); }
-        .list-amount.negative { color: var(--danger); }
-
-        .list-actions {
-            display: flex;
-            gap: var(--space-xs);
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: var(--space-3xl);
-        }
-
-        .empty-state .icon {
-            font-size: 4rem;
-            margin-bottom: var(--space-lg);
-            display: block;
-            animation: float 4s ease-in-out infinite;
-        }
-
-        .empty-state .title {
-            font-size: var(--font-lg);
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: var(--space-sm);
-        }
-
-        .empty-state p {
-            color: var(--text-muted);
-            margin-bottom: var(--space-lg);
-        }
-
-        .toast {
-            position: fixed;
-            top: calc(80px + var(--safe-top));
-            left: 50%;
-            transform: translateX(-50%) translateY(-20px);
-            background: var(--bg-secondary);
-            border: 1px solid var(--glass-border);
-            color: var(--text-primary);
-            padding: var(--space-md) var(--space-xl);
-            border-radius: var(--radius-full);
-            font-size: var(--font-sm);
-            font-weight: 600;
-            box-shadow: var(--shadow-lg);
-            z-index: 3000;
-            opacity: 0;
-            visibility: hidden;
-            transition: all var(--anim-normal) cubic-bezier(0.16, 1, 0.3, 1);
-            display: flex;
-            align-items: center;
-            gap: var(--space-sm);
-            max-width: calc(100% - 40px);
-        }
-
-        .toast.show {
-            opacity: 1;
-            visibility: visible;
-            transform: translateX(-50%) translateY(0);
-        }
-
-        .toast.success {
-            background: var(--success-gradient);
-            border: none;
-            color: white;
-        }
-
-        .toast.error {
-            background: var(--danger-gradient);
-            border: none;
-            color: white;
-        }
-
-        .toast.warning {
-            background: var(--warning-gradient);
-            border: none;
-            color: white;
-        }
-
-        .toast.info {
-            background: var(--info-gradient);
-            border: none;
-            color: white;
-        }
-
+        /* ===== LOADING ===== */
         .loading-overlay {
             position: fixed;
             inset: 0;
@@ -1117,117 +106,322 @@
             align-items: center;
             justify-content: center;
             z-index: 9999;
-            transition: opacity var(--anim-normal);
+            transition: opacity 0.3s, visibility 0.3s;
         }
 
         .loading-overlay.hide {
             opacity: 0;
+            visibility: hidden;
             pointer-events: none;
         }
 
         .loading-spinner {
-            width: 48px;
-            height: 48px;
-            border: 4px solid var(--glass);
+            width: 50px;
+            height: 50px;
+            border: 4px solid var(--bg-tertiary);
             border-top-color: var(--primary);
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin-bottom: var(--space-lg);
+            margin-bottom: 16px;
         }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
 
         .loading-text {
             color: var(--text-muted);
-            font-size: var(--font-sm);
+            font-size: 14px;
         }
 
-        .settings-panel {
+        /* ===== SCREENS ===== */
+        .screen {
+            display: none;
+            min-height: 100vh;
+            padding-bottom: calc(80px + var(--safe-bottom));
+        }
+
+        .screen.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* ===== CONTAINER ===== */
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 16px;
+        }
+
+        /* ===== TOAST ===== */
+        .toast {
             position: fixed;
-            top: calc(56px + var(--safe-top));
-            right: var(--space-lg);
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-100px);
             background: var(--bg-secondary);
             border: 1px solid var(--glass-border);
-            border-radius: var(--radius-lg);
-            padding: var(--space-md);
-            min-width: 240px;
+            color: var(--text-primary);
+            padding: 12px 24px;
+            border-radius: var(--radius-full);
+            font-size: 14px;
+            font-weight: 600;
             box-shadow: var(--shadow-lg);
-            z-index: 99;
-            display: none;
-            animation: fadeInDown var(--anim-fast) ease;
+            z-index: 10000;
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
 
-        .settings-panel.show { display: block; }
-
-        .settings-section {
-            margin-bottom: var(--space-lg);
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
         }
 
-        .settings-section:last-child { margin-bottom: 0; }
+        .toast.success { background: linear-gradient(135deg, #10B981, #059669); color: white; border: none; }
+        .toast.error { background: linear-gradient(135deg, #EF4444, #DC2626); color: white; border: none; }
+        .toast.warning { background: linear-gradient(135deg, #F59E0B, #D97706); color: white; border: none; }
+        .toast.info { background: linear-gradient(135deg, #3B82F6, #2563EB); color: white; border: none; }
 
-        .settings-label {
-            font-size: var(--font-sm);
-            color: var(--text-muted);
-            margin-bottom: var(--space-sm);
+        /* ===== TOP BAR ===== */
+        .top-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 56px;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--glass-border);
             display: flex;
             align-items: center;
-            gap: var(--space-xs);
+            justify-content: space-between;
+            padding: 0 16px;
+            z-index: 100;
         }
 
-        .settings-options {
+        .top-bar-title {
+            font-size: 18px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-light), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .top-bar-actions {
             display: flex;
-            gap: var(--space-xs);
-            flex-wrap: wrap;
+            gap: 8px;
         }
 
-        .settings-option {
-            flex: 1;
-            min-width: 60px;
-            padding: var(--space-sm) var(--space-md);
-            background: var(--glass);
-            border: none;
-            border-radius: var(--radius);
-            color: var(--text-primary);
-            font-size: var(--font-sm);
+        /* ===== BUTTONS ===== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 20px;
+            border-radius: var(--radius-full);
+            font-size: 14px;
+            font-weight: 600;
             font-family: inherit;
+            border: none;
             cursor: pointer;
-            transition: all var(--anim-fast);
-            text-align: center;
+            transition: all 0.2s;
+            text-decoration: none;
         }
 
-        .settings-option:hover { background: var(--glass-light); }
-        .settings-option.active {
-            background: var(--primary);
+        .btn:active { transform: scale(0.97); }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-light), var(--primary));
+            color: white;
+            box-shadow: 0 4px 15px rgba(13, 148, 136, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #34D399, #10B981);
             color: white;
         }
 
-        .theme-options {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: var(--space-xs);
+        .btn-danger {
+            background: linear-gradient(135deg, #F87171, #EF4444);
+            color: white;
         }
 
-        .theme-option {
-            aspect-ratio: 1;
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--glass-border);
+            color: var(--text-primary);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--text-muted);
+            padding: 8px;
+        }
+
+        .btn-lg { padding: 16px 24px; font-size: 16px; }
+        .btn-sm { padding: 8px 16px; font-size: 13px; }
+        .btn-icon { width: 44px; height: 44px; padding: 0; border-radius: var(--radius); }
+
+        /* ===== CARDS ===== */
+        .card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-badge {
+            background: var(--primary);
+            color: white;
+            font-size: 12px;
+            padding: 2px 10px;
+            border-radius: var(--radius-full);
+        }
+
+        /* ===== FORMS ===== */
+        .form-group { margin-bottom: 20px; }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .form-label .required { color: var(--danger); }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--bg-tertiary);
+            border: 2px solid var(--glass-border);
+            border-radius: var(--radius);
+            color: var(--text-primary);
+            font-size: 15px;
+            font-family: inherit;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .form-input::placeholder { color: var(--text-muted); }
+
+        .form-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394A3B8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: left 12px center;
+            background-size: 20px;
+            padding-left: 40px;
+        }
+
+        /* ===== STATS ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            padding: 16px;
+            text-align: center;
+        }
+
+        .stat-icon { font-size: 28px; margin-bottom: 8px; }
+        .stat-value { font-size: 20px; font-weight: 800; }
+        .stat-label { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+
+        .stat-card.success { border-color: var(--success); }
+        .stat-card.success .stat-value { color: var(--success); }
+        .stat-card.danger { border-color: var(--danger); }
+        .stat-card.danger .stat-value { color: var(--danger); }
+        .stat-card.warning { border-color: var(--warning); }
+        .stat-card.warning .stat-value { color: var(--warning); }
+        .stat-card.info { border-color: var(--info); }
+        .stat-card.info .stat-value { color: var(--info); }
+
+        /* ===== LIST ITEMS ===== */
+        .list-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: var(--bg-tertiary);
+            border-radius: var(--radius);
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .list-item:hover { transform: translateX(-4px); }
+        .list-item:active { transform: scale(0.98); }
+
+        .list-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: var(--radius);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.3rem;
+            font-size: 20px;
             background: var(--glass);
-            border: 2px solid var(--glass-border);
-            border-radius: var(--radius);
-            cursor: pointer;
-            transition: all var(--anim-fast);
         }
 
-        .theme-option:hover { transform: scale(1.1); }
-        .theme-option.active {
-            border-color: var(--primary);
-            background: var(--primary-glow);
+        .list-content { flex: 1; min-width: 0; }
+        .list-title { font-weight: 600; font-size: 14px; }
+        .list-meta { font-size: 12px; color: var(--text-muted); }
+        .list-amount { font-weight: 700; font-size: 14px; }
+        .list-amount.positive { color: var(--success); }
+        .list-amount.negative { color: var(--danger); }
+
+        /* ===== EMPTY STATE ===== */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
         }
 
+        .empty-state .icon { font-size: 48px; margin-bottom: 12px; opacity: 0.5; }
+        .empty-state p { font-size: 14px; }
+
+        /* ===== AVATAR GRID ===== */
         .avatar-grid {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: var(--space-sm);
+            grid-template-columns: repeat(6, 1fr);
+            gap: 8px;
         }
 
         .avatar-option {
@@ -1238,61 +432,55 @@
             background: var(--bg-tertiary);
             border: 2px solid var(--glass-border);
             border-radius: var(--radius);
-            font-size: 1.8rem;
+            font-size: 24px;
             cursor: pointer;
-            transition: all var(--anim-fast);
+            transition: all 0.2s;
         }
 
         .avatar-option:hover { transform: scale(1.1); }
         .avatar-option.selected {
             border-color: var(--primary);
-            background: var(--primary-glow);
-            transform: scale(1.05);
+            background: rgba(13, 148, 136, 0.2);
         }
 
+        /* ===== CATEGORY GRID ===== */
         .category-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: var(--space-sm);
+            gap: 8px;
         }
 
         .category-option {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: var(--space-xs);
-            padding: var(--space-md);
+            gap: 4px;
+            padding: 12px 8px;
             background: var(--bg-tertiary);
             border: 2px solid var(--glass-border);
             border-radius: var(--radius);
             cursor: pointer;
-            transition: all var(--anim-fast);
+            transition: all 0.2s;
         }
 
         .category-option:hover { border-color: var(--primary); }
         .category-option.selected {
             border-color: var(--primary);
-            background: var(--primary-glow);
+            background: rgba(13, 148, 136, 0.2);
         }
 
-        .category-option .icon { font-size: 1.6rem; }
-        .category-option .label {
-            font-size: var(--font-xs);
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
+        .category-option .icon { font-size: 24px; }
+        .category-option .label { font-size: 11px; color: var(--text-secondary); }
 
-        .admin-only { display: none !important; }
-        body.is-admin .admin-only { display: flex !important; }
-
+        /* ===== TRIP HEADER ===== */
         .trip-header {
-            background: var(--primary-gradient);
-            border-radius: var(--radius-xl);
-            padding: var(--space-2xl);
-            margin-bottom: var(--space-xl);
+            background: linear-gradient(135deg, var(--primary-light), var(--primary), var(--primary-dark));
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin-bottom: 20px;
+            color: white;
             position: relative;
             overflow: hidden;
-            box-shadow: var(--shadow), var(--shadow-glow);
         }
 
         .trip-header::before {
@@ -1300,89 +488,219 @@
             position: absolute;
             top: -20px;
             left: -20px;
-            font-size: 140px;
+            font-size: 120px;
             opacity: 0.1;
-            pointer-events: none;
         }
 
-        .trip-header::after {
-            content: '';
-            position: absolute;
-            bottom: -50%;
-            right: -20%;
-            width: 200px;
-            height: 200px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 50%;
-        }
-
-        .trip-name {
-            font-size: var(--font-2xl);
-            font-weight: 800;
-            color: white;
-            margin-bottom: var(--space-sm);
-            position: relative;
-        }
-
-        .trip-info {
-            display: flex;
-            gap: var(--space-lg);
-            font-size: var(--font-sm);
-            color: rgba(255,255,255,0.9);
-            margin-bottom: var(--space-lg);
-            position: relative;
-        }
+        .trip-name { font-size: 24px; font-weight: 800; margin-bottom: 8px; position: relative; }
+        .trip-info { display: flex; gap: 16px; font-size: 14px; opacity: 0.9; margin-bottom: 16px; position: relative; }
 
         .trip-actions {
             display: flex;
-            gap: var(--space-sm);
+            gap: 8px;
             position: relative;
         }
 
         .trip-actions .btn {
             flex: 1;
             background: rgba(255,255,255,0.2);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.3);
             color: white;
-            font-size: var(--font-sm);
-            box-shadow: none;
+            font-size: 13px;
         }
 
-        .trip-actions .btn:hover {
-            background: rgba(255,255,255,0.3);
+        /* ===== MODAL ===== */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            align-items: flex-end;
+            justify-content: center;
         }
 
-        .footer-credit {
-            text-align: center;
-            padding: var(--space-xl);
+        .modal.active {
+            display: flex;
+            animation: fadeIn 0.2s ease;
+        }
+
+        .modal-content {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+            width: 100%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid var(--glass-border);
+            background: var(--bg-tertiary);
+        }
+
+        .modal-title { font-size: 18px; font-weight: 700; }
+
+        .modal-close {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--glass);
+            border: none;
+            border-radius: 50%;
             color: var(--text-muted);
-            font-size: var(--font-xs);
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
         }
 
-        .footer-credit p { margin-bottom: var(--space-xs); }
-        .footer-credit strong { color: var(--primary); }
+        .modal-close:hover { background: var(--danger); color: white; }
 
+        .modal-body {
+            padding: 20px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .modal-footer {
+            padding: 16px 20px;
+            border-top: 1px solid var(--glass-border);
+            background: var(--bg-tertiary);
+        }
+
+        .modal-center .modal-content {
+            border-radius: var(--radius-lg);
+            max-width: 360px;
+            margin: auto;
+        }
+
+        /* ===== BOTTOM NAV ===== */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--glass-border);
+            display: none;
+            justify-content: space-around;
+            padding: 8px 0;
+            padding-bottom: calc(8px + var(--safe-bottom));
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            padding: 8px 16px;
+            color: var(--text-muted);
+            font-size: 11px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-family: inherit;
+            transition: color 0.2s;
+        }
+
+        .nav-item .icon { font-size: 22px; }
+        .nav-item.active { color: var(--primary); }
+
+        /* ===== FAB ===== */
+        .fab {
+            position: fixed;
+            bottom: calc(80px + var(--safe-bottom));
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-light), var(--primary));
+            color: white;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 6px 25px rgba(13, 148, 136, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 99;
+            transition: all 0.2s;
+        }
+
+        .fab:active { transform: translateX(-50%) scale(0.95); }
+
+        /* ===== SETTLEMENT ===== */
+        .settlement-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            background: var(--bg-tertiary);
+            border-radius: var(--radius);
+            margin-bottom: 10px;
+        }
+
+        .settlement-person { text-align: center; min-width: 60px; }
+        .settlement-person .avatar { font-size: 28px; }
+        .settlement-person .name { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+        .settlement-arrow { flex: 1; text-align: center; }
+        .settlement-arrow .amount { font-size: 16px; font-weight: 800; color: var(--success); }
+        .settlement-arrow .icon { font-size: 20px; color: var(--primary); }
+
+        /* ===== CHECKBOX ===== */
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: var(--bg-tertiary);
+            border-radius: var(--radius);
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--primary);
+        }
+
+        /* ===== SPLIT TOGGLE ===== */
         .split-toggle {
             display: flex;
             background: var(--bg-tertiary);
             border-radius: var(--radius-full);
             padding: 4px;
-            margin-bottom: var(--space-md);
+            margin-bottom: 12px;
         }
 
         .split-toggle-btn {
             flex: 1;
-            padding: var(--space-sm) var(--space-lg);
+            padding: 10px;
             border: none;
             background: transparent;
             border-radius: var(--radius-full);
-            font-size: var(--font-sm);
+            font-size: 13px;
             font-weight: 600;
             font-family: inherit;
             color: var(--text-muted);
             cursor: pointer;
-            transition: all var(--anim-fast);
         }
 
         .split-toggle-btn.active {
@@ -1390,200 +708,190 @@
             color: white;
         }
 
-        .checkbox-item {
-            display: flex;
-            align-items: center;
-            gap: var(--space-md);
-            padding: var(--space-md);
-            background: var(--bg-tertiary);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius);
-            cursor: pointer;
-            transition: all var(--anim-fast);
-            margin-bottom: var(--space-sm);
-        }
-
-        .checkbox-item:hover { border-color: var(--primary); }
-
-        .checkbox-item input[type="checkbox"] {
-            width: 22px;
-            height: 22px;
-            accent-color: var(--primary);
-            cursor: pointer;
-        }
-
-        .detail-section {
-            margin-bottom: var(--space-xl);
-        }
-
-        .detail-section-title {
-            font-size: var(--font-sm);
-            font-weight: 700;
-            color: var(--text-muted);
-            margin-bottom: var(--space-md);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .detail-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: var(--space-md) 0;
-            border-bottom: 1px solid var(--glass-border);
-        }
-
-        .detail-row:last-child { border-bottom: none; }
-
-        .detail-label {
-            font-size: var(--font-sm);
-            color: var(--text-muted);
-            display: flex;
-            align-items: center;
-            gap: var(--space-sm);
-        }
-
-        .detail-value {
-            font-weight: 600;
-            font-size: var(--font-sm);
-            color: var(--text-primary);
-        }
-
-        .member-balance {
-            margin-top: var(--space-md);
-            padding: var(--space-md);
-            border-radius: var(--radius);
-            text-align: center;
-            font-weight: 700;
-            font-size: var(--font-base);
-        }
-
-        .member-balance.positive {
-            background: var(--success-bg);
-            color: var(--success);
-        }
-
-        .member-balance.negative {
-            background: var(--danger-bg);
-            color: var(--danger);
-        }
-
-        .member-balance.zero {
-            background: var(--glass);
-            color: var(--text-muted);
-        }
-
+        /* ===== CUSTOM SPLIT ===== */
         .custom-split-item {
             display: flex;
             align-items: center;
-            gap: var(--space-md);
-            padding: var(--space-md);
+            gap: 12px;
+            padding: 10px;
             background: var(--bg-tertiary);
             border-radius: var(--radius);
-            margin-bottom: var(--space-sm);
+            margin-bottom: 8px;
         }
 
-        .custom-split-item .avatar { font-size: 1.5rem; }
-        .custom-split-item .name { flex: 1; font-weight: 500; }
-
+        .custom-split-item .info { flex: 1; display: flex; align-items: center; gap: 8px; }
+        .custom-split-item .avatar { font-size: 20px; }
+        .custom-split-item .name { font-size: 14px; }
         .custom-split-item input {
-            width: 110px;
-            padding: var(--space-sm);
+            width: 100px;
+            padding: 8px;
             background: var(--bg-secondary);
             border: 1px solid var(--glass-border);
-            border-radius: var(--radius-sm);
+            border-radius: var(--radius);
             color: var(--text-primary);
             font-family: inherit;
-            font-size: var(--font-sm);
+            font-size: 14px;
             text-align: center;
         }
 
-        .settlement-item {
+        /* ===== RECENT TRIPS ===== */
+        .recent-trip-item {
             display: flex;
             align-items: center;
-            gap: var(--space-md);
-            padding: var(--space-lg);
-            background: var(--bg-tertiary);
-            border-radius: var(--radius-lg);
-            margin-bottom: var(--space-md);
+            gap: 12px;
+            padding: 14px;
+            background: var(--bg-secondary);
             border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
         }
 
-        .settlement-arrow {
-            font-size: 1.5rem;
-            color: var(--primary);
+        .recent-trip-item:hover { border-color: var(--primary); }
+
+        .recent-trip-icon { font-size: 32px; }
+        .recent-trip-info { flex: 1; }
+        .recent-trip-name { font-weight: 600; font-size: 15px; }
+        .recent-trip-meta { font-size: 12px; color: var(--text-muted); }
+
+        /* ===== EXPENSE ITEM ===== */
+        .expense-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px;
+            background: var(--bg-tertiary);
+            border-radius: var(--radius);
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
         }
 
-        .settlement-person {
-            text-align: center;
-            min-width: 60px;
+        .expense-item:hover { transform: translateX(-4px); }
+
+        .expense-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            background: var(--glass);
         }
 
-        .settlement-person .avatar {
-            font-size: 2rem;
-            display: block;
+        .expense-info { flex: 1; }
+        .expense-title { font-weight: 600; font-size: 14px; }
+        .expense-meta { font-size: 12px; color: var(--text-muted); }
+        .expense-amount { font-weight: 700; font-size: 15px; color: var(--primary); }
+
+        /* ===== MEMBER ITEM ===== */
+        .member-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px;
+            background: var(--bg-tertiary);
+            border-radius: var(--radius);
+            margin-bottom: 10px;
+            cursor: pointer;
         }
 
-        .settlement-person .name {
-            font-size: var(--font-xs);
-            color: var(--text-muted);
-            margin-top: var(--space-xs);
+        .member-avatar { font-size: 36px; }
+        .member-info { flex: 1; }
+        .member-name { font-weight: 600; font-size: 15px; display: flex; align-items: center; gap: 6px; }
+        .member-balance { font-size: 13px; }
+        .member-balance.positive { color: var(--success); }
+        .member-balance.negative { color: var(--danger); }
+        .admin-badge { font-size: 14px; }
+
+        /* ===== BALANCE ITEM ===== */
+        .balance-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--glass-border);
         }
 
-        .settlement-amount {
-            flex: 1;
-            text-align: center;
-            font-size: var(--font-lg);
-            font-weight: 800;
-            color: var(--success);
+        .balance-item:last-child { border-bottom: none; }
+
+        .balance-info { display: flex; align-items: center; gap: 8px; }
+        .balance-avatar { font-size: 20px; }
+        .balance-name { font-size: 14px; }
+        .balance-amount { font-weight: 700; font-size: 14px; }
+        .balance-amount.positive { color: var(--success); }
+        .balance-amount.negative { color: var(--danger); }
+
+        /* ===== REPORT ===== */
+        .report-stat-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--glass-border);
+            font-size: 14px;
         }
 
+        .report-stat-row:last-child { border-bottom: none; }
+
+        .top-spender-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 0;
+        }
+
+        .top-spender-item .rank { font-size: 20px; }
+        .top-spender-item .spender-avatar { font-size: 24px; }
+        .top-spender-item .spender-name { flex: 1; font-size: 14px; }
+        .top-spender-item .spender-amount { font-weight: 700; font-size: 14px; color: var(--primary); }
+
+        /* ===== CHART ===== */
         .chart-container {
             position: relative;
             height: 250px;
-            margin: var(--space-lg) 0;
         }
 
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: var(--glass);
-            border-radius: var(--radius-full);
-            overflow: hidden;
+        /* ===== EXPENSE DETAIL ===== */
+        .expense-detail-info {
+            background: var(--bg-tertiary);
+            border-radius: var(--radius);
+            padding: 16px;
+            margin: 16px 0;
         }
 
-        .progress-bar-fill {
-            height: 100%;
-            background: var(--primary-gradient);
-            border-radius: var(--radius-full);
-            transition: width var(--anim-slow);
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 14px;
         }
 
-        .tab-content { min-height: 200px; }
-
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            gap: var(--space-xs);
-            padding: 2px 8px;
-            border-radius: var(--radius-full);
-            font-size: var(--font-xs);
-            font-weight: 600;
+        .split-members-list {
+            background: var(--bg-tertiary);
+            border-radius: var(--radius);
+            padding: 12px;
         }
 
-        .badge-success { background: var(--success-bg); color: var(--success); }
-        .badge-danger { background: var(--danger-bg); color: var(--danger); }
-        .badge-warning { background: var(--warning-bg); color: var(--warning); }
-        .badge-info { background: var(--info-bg); color: var(--info); }
+        .split-member-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 13px;
+            border-bottom: 1px solid var(--glass-border);
+        }
 
+        .split-member-item:last-child { border-bottom: none; }
+
+        /* ===== DIVIDER ===== */
         .divider {
             display: flex;
             align-items: center;
-            gap: var(--space-md);
-            margin: var(--space-xl) 0;
+            gap: 12px;
+            margin: 20px 0;
             color: var(--text-muted);
-            font-size: var(--font-sm);
-            font-weight: 500;
+            font-size: 13px;
         }
 
         .divider::before, .divider::after {
@@ -1593,111 +901,131 @@
             background: var(--glass-border);
         }
 
-        @media (max-width: 360px) {
-            .container { padding: 0 var(--space-md); }
-            .stats-grid { grid-template-columns: 1fr; }
-            .category-grid { grid-template-columns: repeat(2, 1fr); }
+        /* ===== SETTINGS ===== */
+        .settings-panel {
+            position: fixed;
+            top: 56px;
+            right: 16px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            padding: 16px;
+            min-width: 220px;
+            box-shadow: var(--shadow-lg);
+            z-index: 99;
+            display: none;
         }
 
-        @media (min-width: 768px) {
-            .modal-content {
-                border-radius: var(--radius-xl);
-                margin: auto;
-                max-height: 80vh;
-            }
+        .settings-panel.show { display: block; animation: fadeIn 0.2s ease; }
+
+        .settings-section { margin-bottom: 16px; }
+        .settings-section:last-child { margin-bottom: 0; }
+        .settings-label { font-size: 13px; color: var(--text-muted); margin-bottom: 8px; }
+
+        .theme-options {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 6px;
         }
 
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
+        .theme-option {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            background: var(--glass);
+            border: 2px solid var(--glass-border);
+            border-radius: var(--radius);
+            cursor: pointer;
         }
 
-        @media print {
-            .top-bar, .bottom-nav, .btn-fab, .modal { display: none !important; }
-            .screen { display: block !important; padding: 0; }
-            body { background: white; color: black; }
+        .theme-option:hover { transform: scale(1.1); }
+        .theme-option.active { border-color: var(--primary); }
+
+        /* ===== FOOTER ===== */
+        .footer-credit {
+            text-align: center;
+            padding: 30px;
+            color: var(--text-muted);
+            font-size: 12px;
         }
+
+        .footer-credit strong { color: var(--primary); }
+
+        /* ===== UTILITIES ===== */
+        .btn-group { display: flex; gap: 8px; }
+        .btn-group .btn { flex: 1; }
+        .text-center { text-align: center; }
+        .admin-only { display: none !important; }
+        body.is-admin .admin-only { display: flex !important; }
     </style>
 </head>
 <body>
-    <div class="bg-animation"></div>
-    
+    <!-- Loading -->
     <div id="loadingOverlay" class="loading-overlay">
         <div class="loading-spinner"></div>
         <div class="loading-text">در حال بارگذاری...</div>
     </div>
 
+    <!-- Toast -->
     <div id="toast" class="toast"></div>
 
-    <header class="top-bar" id="topBar">
+    <!-- Top Bar -->
+    <header class="top-bar">
         <span class="top-bar-title">🏝️ سفرینو</span>
         <div class="top-bar-actions">
-            <button class="btn btn-ghost btn-icon-sm" onclick="toggleSettings()" aria-label="تنظیمات">⚙️</button>
+            <button class="btn btn-ghost btn-icon" onclick="toggleSettings()">⚙️</button>
         </div>
     </header>
 
+    <!-- Settings Panel -->
     <div class="settings-panel" id="settingsPanel">
         <div class="settings-section">
             <div class="settings-label">🎨 تم</div>
             <div class="theme-options">
-                <button class="theme-option" data-theme="night" title="شب">🌙</button>
-                <button class="theme-option" data-theme="day" title="روز">☀️</button>
-                <button class="theme-option" data-theme="sunset" title="غروب">🌅</button>
-                <button class="theme-option" data-theme="ocean" title="اقیانوس">🌊</button>
-                <button class="theme-option" data-theme="forest" title="جنگل">🌲</button>
-            </div>
-        </div>
-        <div class="settings-section">
-            <div class="settings-label">🔤 اندازه فونت</div>
-            <div class="settings-options">
-                <button class="settings-option" data-font="small">کوچک</button>
-                <button class="settings-option" data-font="medium">متوسط</button>
-                <button class="settings-option" data-font="large">بزرگ</button>
-                <button class="settings-option" data-font="xlarge">خیلی بزرگ</button>
+                <button class="theme-option active" data-theme="night" onclick="setTheme('night')">🌙</button>
+                <button class="theme-option" data-theme="day" onclick="setTheme('day')">☀️</button>
+                <button class="theme-option" data-theme="sunset" onclick="setTheme('sunset')">🌅</button>
+                <button class="theme-option" data-theme="ocean" onclick="setTheme('ocean')">🌊</button>
+                <button class="theme-option" data-theme="forest" onclick="setTheme('forest')">🌲</button>
             </div>
         </div>
     </div>
 
-    <!-- صفحه خوش‌آمدگویی -->
+    <!-- Welcome Screen -->
     <div id="welcomeScreen" class="screen active">
-        <div class="container" style="padding-top: calc(80px + var(--safe-top)); text-align: center;">
-            <div class="animate-fade-in-up stagger-1" style="font-size: 5rem; margin-bottom: var(--space-xl);">🏝️</div>
-            <h1 class="animate-fade-in-up stagger-2" style="font-size: var(--font-3xl); font-weight: 800; margin-bottom: var(--space-md);">
-                سفرینو
-            </h1>
-            <p class="animate-fade-in-up stagger-3" style="color: var(--text-muted); margin-bottom: var(--space-3xl); font-size: var(--font-md);">
-                مدیریت هزینه‌های سفر گروهی
-            </p>
+        <div class="container" style="padding-top: 80px; text-align: center;">
+            <div style="font-size: 80px; margin-bottom: 20px;">🏝️</div>
+            <h1 style="font-size: 32px; font-weight: 800; margin-bottom: 8px;">سفرینو</h1>
+            <p style="color: var(--text-muted); margin-bottom: 40px;">مدیریت هزینه‌های سفر گروهی</p>
             
-            <div class="animate-fade-in-up stagger-4" style="margin-bottom: var(--space-xl);">
-                <button class="btn btn-primary btn-lg" onclick="showModal('createTripModal')" style="width: 100%; margin-bottom: var(--space-md);">
+            <div style="margin-bottom: 30px;">
+                <button class="btn btn-primary btn-lg" style="width: 100%; margin-bottom: 12px;" onclick="showModal('createTripModal')">
                     ✨ ایجاد سفر جدید
                 </button>
-                <button class="btn btn-outline btn-lg" onclick="showModal('joinTripModal')" style="width: 100%;">
+                <button class="btn btn-outline btn-lg" style="width: 100%;" onclick="showModal('joinTripModal')">
                     🔗 پیوستن به سفر
                 </button>
             </div>
 
-            <div id="recentTrips" class="animate-fade-in-up stagger-5" style="display: none;">
+            <div id="recentTrips" style="display: none;">
                 <div class="divider">سفرهای اخیر</div>
                 <div id="recentTripsList"></div>
             </div>
 
-            <div class="footer-credit animate-fade-in-up stagger-6">
+            <div class="footer-credit">
                 <p>طراحی و توسعه با ❤️</p>
                 <p><strong>محمد عباسی</strong></p>
             </div>
         </div>
     </div>
 
-    <!-- صفحه اصلی سفر -->
+    <!-- Home Screen -->
     <div id="homeScreen" class="screen">
-        <div class="container" style="padding-top: calc(80px + var(--safe-top));">
-            <div class="trip-header animate-fade-in-up">
-                <h1 class="trip-name" id="tripNameDisplay">سفر شمال</h1>
+        <div class="container" style="padding-top: 70px;">
+            <div class="trip-header">
+                <h1 class="trip-name" id="tripNameDisplay">سفر</h1>
                 <div class="trip-info">
                     <span>👥 <span id="memberCountDisplay">0</span> نفر</span>
                     <span>📅 <span id="tripDateDisplay">-</span></span>
@@ -1709,53 +1037,53 @@
             </div>
 
             <div class="stats-grid">
-                <div class="stat-card success animate-fade-in-up stagger-1">
+                <div class="stat-card success">
                     <span class="stat-icon">💰</span>
                     <div class="stat-value" id="totalExpenses">۰</div>
                     <div class="stat-label">کل هزینه‌ها</div>
                 </div>
-                <div class="stat-card info animate-fade-in-up stagger-2">
+                <div class="stat-card info">
                     <span class="stat-icon">👤</span>
                     <div class="stat-value" id="perPersonAvg">۰</div>
                     <div class="stat-label">سهم هر نفر</div>
                 </div>
-                <div class="stat-card warning animate-fade-in-up stagger-3">
+                <div class="stat-card warning">
                     <span class="stat-icon">🧾</span>
                     <div class="stat-value" id="expenseCount">۰</div>
                     <div class="stat-label">تعداد هزینه</div>
                 </div>
-                <div class="stat-card danger animate-fade-in-up stagger-4">
+                <div class="stat-card" id="myBalanceCard">
                     <span class="stat-icon">⚖️</span>
                     <div class="stat-value" id="myBalance">۰</div>
                     <div class="stat-label">وضعیت من</div>
                 </div>
             </div>
 
-            <div class="card animate-fade-in-up stagger-5">
+            <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">📊 خلاصه وضعیت اعضا</h3>
+                    <h3 class="card-title">📊 وضعیت اعضا</h3>
                 </div>
                 <div id="quickBalanceList"></div>
             </div>
 
-            <div class="card animate-fade-in-up stagger-6">
+            <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">🕐 آخرین هزینه‌ها</h3>
-                    <button class="btn btn-sm btn-outline" onclick="switchTab('expenses')">مشاهده همه</button>
+                    <button class="btn btn-sm btn-outline" onclick="switchTab('expenses')">همه</button>
                 </div>
                 <div id="recentExpensesList"></div>
             </div>
 
             <div class="footer-credit">
-                <p>طراحی و توسعه: <strong>محمد عباسی</strong></p>
+                <p>طراحی: <strong>محمد عباسی</strong></p>
             </div>
         </div>
     </div>
 
-    <!-- صفحه هزینه‌ها -->
+    <!-- Expenses Screen -->
     <div id="expensesScreen" class="screen">
-        <div class="container" style="padding-top: calc(80px + var(--safe-top));">
-            <div class="card animate-fade-in-up">
+        <div class="container" style="padding-top: 70px;">
+            <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">🧾 لیست هزینه‌ها</h3>
                     <span class="card-badge" id="expensesBadge">0</span>
@@ -1765,18 +1093,18 @@
         </div>
     </div>
 
-    <!-- صفحه اعضا -->
+    <!-- Members Screen -->
     <div id="membersScreen" class="screen">
-        <div class="container" style="padding-top: calc(80px + var(--safe-top));">
-            <div class="card animate-fade-in-up">
+        <div class="container" style="padding-top: 70px;">
+            <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">👥 اعضای سفر</h3>
-                    <button class="btn btn-sm btn-primary admin-only" onclick="showModal('addMemberModal')">+ عضو جدید</button>
+                    <button class="btn btn-sm btn-primary admin-only" onclick="showModal('addMemberModal')">+ عضو</button>
                 </div>
                 <div id="membersList"></div>
             </div>
 
-            <div class="card animate-fade-in-up stagger-2">
+            <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">💸 تسویه حساب</h3>
                 </div>
@@ -1785,10 +1113,10 @@
         </div>
     </div>
 
-    <!-- صفحه گزارشات -->
+    <!-- Reports Screen -->
     <div id="reportsScreen" class="screen">
-        <div class="container" style="padding-top: calc(80px + var(--safe-top));">
-            <div class="card animate-fade-in-up">
+        <div class="container" style="padding-top: 70px;">
+            <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">📊 نمودار هزینه‌ها</h3>
                 </div>
@@ -1797,54 +1125,50 @@
                 </div>
             </div>
 
-            <div class="card animate-fade-in-up stagger-2">
+            <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">📈 آمار کلی</h3>
                 </div>
                 <div id="reportStats"></div>
             </div>
 
-            <div class="card animate-fade-in-up stagger-3">
+            <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">🏆 بیشترین هزینه‌کننده</h3>
+                    <h3 class="card-title">🏆 بیشترین پرداخت</h3>
                 </div>
                 <div id="topSpenders"></div>
             </div>
 
-            <div class="animate-fade-in-up stagger-4" style="margin-top: var(--space-xl);">
-                <button class="btn btn-primary btn-lg" style="width: 100%;" onclick="exportToPDF()">
-                    📥 دانلود گزارش PDF
-                </button>
-            </div>
+            <button class="btn btn-primary btn-lg" style="width: 100%; margin-top: 16px;" onclick="exportToPDF()">
+                📥 دانلود گزارش PDF
+            </button>
         </div>
     </div>
 
-    <!-- دکمه افزودن هزینه -->
-    <button class="btn btn-primary btn-fab admin-only" id="fabAddExpense" onclick="showModal('addExpenseModal')">
-        ➕
-    </button>
+    <!-- FAB -->
+    <button class="fab admin-only" id="fabBtn" onclick="showModal('addExpenseModal')">➕</button>
 
-    <!-- نوار ناوبری پایین -->
-    <nav class="bottom-nav">
-        <button class="nav-item active" data-tab="home">
+    <!-- Bottom Nav -->
+    <nav class="bottom-nav" id="bottomNav">
+        <button class="nav-item active" data-tab="home" onclick="switchTab('home')">
             <span class="icon">🏠</span>
             <span>خانه</span>
         </button>
-        <button class="nav-item" data-tab="expenses">
+        <button class="nav-item" data-tab="expenses" onclick="switchTab('expenses')">
             <span class="icon">🧾</span>
             <span>هزینه‌ها</span>
         </button>
-        <button class="nav-item" data-tab="members">
+        <button class="nav-item" data-tab="members" onclick="switchTab('members')">
             <span class="icon">👥</span>
             <span>اعضا</span>
         </button>
-        <button class="nav-item" data-tab="reports">
+        <button class="nav-item" data-tab="reports" onclick="switchTab('reports')">
             <span class="icon">📊</span>
             <span>گزارش</span>
         </button>
     </nav>
 
-    <!-- مودال ایجاد سفر -->
+    <!-- Create Trip Modal -->
     <div id="createTripModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -1862,7 +1186,7 @@
                 </div>
                 <div class="form-group">
                     <label class="form-label">👤 نام شما <span class="required">*</span></label>
-                    <input type="text" class="form-input" id="adminName" placeholder="نام شما به عنوان مدیر">
+                    <input type="text" class="form-input" id="adminName" placeholder="نام شما">
                 </div>
                 <div class="form-group">
                     <label class="form-label">😊 آواتار</label>
@@ -1870,14 +1194,12 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary btn-lg" style="width: 100%;" onclick="createTrip()">
-                    🚀 ایجاد سفر
-                </button>
+                <button class="btn btn-primary btn-lg" style="width: 100%;" onclick="createTrip()">🚀 ایجاد سفر</button>
             </div>
         </div>
     </div>
 
-    <!-- مودال پیوستن به سفر -->
+    <!-- Join Trip Modal -->
     <div id="joinTripModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -1887,7 +1209,7 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label class="form-label">🔑 کد سفر <span class="required">*</span></label>
-                    <input type="text" class="form-input" id="joinTripCode" placeholder="کد ۶ رقمی را وارد کنید" style="text-align: center; font-size: var(--font-xl); letter-spacing: 8px;">
+                    <input type="text" class="form-input" id="joinTripCode" placeholder="کد ۶ رقمی" style="text-align: center; font-size: 20px; letter-spacing: 6px;">
                 </div>
                 <div class="form-group">
                     <label class="form-label">👤 نام شما <span class="required">*</span></label>
@@ -1899,14 +1221,12 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary btn-lg" style="width: 100%;" onclick="joinTrip()">
-                    🎉 پیوستن
-                </button>
+                <button class="btn btn-primary btn-lg" style="width: 100%;" onclick="joinTrip()">🎉 پیوستن</button>
             </div>
         </div>
     </div>
 
-    <!-- مودال ویرایش سفر -->
+    <!-- Edit Trip Modal -->
     <div id="editTripModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -1923,19 +1243,15 @@
                     <input type="text" class="form-input" id="editTripDate">
                 </div>
                 <div class="divider">⚠️ منطقه خطر</div>
-                <button class="btn btn-danger" style="width: 100%;" onclick="confirmDeleteTrip()">
-                    🗑️ حذف سفر
-                </button>
+                <button class="btn btn-danger" style="width: 100%;" onclick="confirmDeleteTrip()">🗑️ حذف سفر</button>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary btn-lg" style="width: 100%;" onclick="saveTrip()">
-                    💾 ذخیره تغییرات
-                </button>
+                <button class="btn btn-primary btn-lg" style="width: 100%;" onclick="saveTrip()">💾 ذخیره</button>
             </div>
         </div>
     </div>
 
-    <!-- مودال افزودن هزینه -->
+    <!-- Add Expense Modal -->
     <div id="addExpenseModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -1949,7 +1265,7 @@
                 </div>
                 <div class="form-group">
                     <label class="form-label">💵 مبلغ (تومان) <span class="required">*</span></label>
-                    <input type="text" class="form-input" id="expenseAmount" placeholder="۰" inputmode="numeric" dir="ltr">
+                    <input type="text" class="form-input" id="expenseAmount" placeholder="۰" inputmode="numeric">
                 </div>
                 <div class="form-group">
                     <label class="form-label">🏷️ دسته‌بندی</label>
@@ -1962,8 +1278,8 @@
                 <div class="form-group">
                     <label class="form-label">👥 تقسیم بین</label>
                     <div class="split-toggle">
-                        <button class="split-toggle-btn active" data-split="equal" onclick="setSplitType('equal')">مساوی</button>
-                        <button class="split-toggle-btn" data-split="custom" onclick="setSplitType('custom')">سفارشی</button>
+                        <button type="button" class="split-toggle-btn active" data-split="equal" onclick="setSplitType('equal')">مساوی</button>
+                        <button type="button" class="split-toggle-btn" data-split="custom" onclick="setSplitType('custom')">سفارشی</button>
                     </div>
                     <div id="splitEqualSection">
                         <div id="splitMembersList"></div>
@@ -1974,14 +1290,12 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary btn-lg" style="width: 100%;" onclick="saveExpense()">
-                    ✅ ثبت هزینه
-                </button>
+                <button class="btn btn-primary btn-lg" style="width: 100%;" onclick="saveExpense()">✅ ثبت هزینه</button>
             </div>
         </div>
     </div>
 
-    <!-- مودال جزئیات هزینه -->
+    <!-- Expense Detail Modal -->
     <div id="expenseDetailModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -1998,7 +1312,7 @@
         </div>
     </div>
 
-    <!-- مودال ویرایش هزینه -->
+    <!-- Edit Expense Modal -->
     <div id="editExpenseModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -2013,7 +1327,7 @@
                 </div>
                 <div class="form-group">
                     <label class="form-label">💵 مبلغ (تومان)</label>
-                    <input type="text" class="form-input" id="editExpenseAmount" inputmode="numeric" dir="ltr">
+                    <input type="text" class="form-input" id="editExpenseAmount" inputmode="numeric">
                 </div>
                 <div class="form-group">
                     <label class="form-label">🏷️ دسته‌بندی</label>
@@ -2025,14 +1339,12 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary btn-lg" style="width: 100%;" onclick="updateExpense()">
-                    💾 ذخیره تغییرات
-                </button>
+                <button class="btn btn-primary btn-lg" style="width: 100%;" onclick="updateExpense()">💾 ذخیره</button>
             </div>
         </div>
     </div>
 
-    <!-- مودال افزودن عضو -->
+    <!-- Add Member Modal -->
     <div id="addMemberModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -2050,14 +1362,12 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary btn-lg" style="width: 100%;" onclick="addMember()">
-                    ➕ افزودن
-                </button>
+                <button class="btn btn-primary btn-lg" style="width: 100%;" onclick="addMember()">➕ افزودن</button>
             </div>
         </div>
     </div>
 
-    <!-- مودال جزئیات عضو -->
+    <!-- Member Detail Modal -->
     <div id="memberDetailModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -2068,13 +1378,13 @@
             <div class="modal-footer admin-only">
                 <div class="btn-group">
                     <button class="btn btn-outline" onclick="editCurrentMember()">✏️ ویرایش</button>
-                    <button class="btn btn-danger" onclick="removeCurrentMember()">🚪 حذف از سفر</button>
+                    <button class="btn btn-danger" onclick="removeCurrentMember()">🚪 حذف</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- مودال ویرایش عضو -->
+    <!-- Edit Member Modal -->
     <div id="editMemberModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -2084,7 +1394,7 @@
             <div class="modal-body">
                 <input type="hidden" id="editMemberId">
                 <div class="form-group">
-                    <label class="form-label">👤 نام عضو</label>
+                    <label class="form-label">👤 نام</label>
                     <input type="text" class="form-input" id="editMemberName">
                 </div>
                 <div class="form-group">
@@ -2093,14 +1403,12 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary btn-lg" style="width: 100%;" onclick="updateMember()">
-                    💾 ذخیره تغییرات
-                </button>
+                <button class="btn btn-primary btn-lg" style="width: 100%;" onclick="updateMember()">💾 ذخیره</button>
             </div>
         </div>
     </div>
 
-    <!-- مودال اشتراک کد -->
+    <!-- Share Modal -->
     <div id="shareModal" class="modal modal-center">
         <div class="modal-content">
             <div class="modal-header">
@@ -2108,14 +1416,14 @@
                 <button class="modal-close" onclick="hideModal('shareModal')">×</button>
             </div>
             <div class="modal-body" style="text-align: center;">
-                <p style="margin-bottom: var(--space-lg); color: var(--text-muted);">این کد را برای دوستانتان بفرستید:</p>
-                <div style="font-size: var(--font-3xl); font-weight: 800; letter-spacing: 8px; color: var(--primary); margin-bottom: var(--space-xl); font-family: monospace;" id="shareCodeDisplay"></div>
+                <p style="margin-bottom: 16px; color: var(--text-muted);">این کد را برای دوستانتان بفرستید:</p>
+                <div style="font-size: 32px; font-weight: 800; letter-spacing: 8px; color: var(--primary); margin-bottom: 20px; font-family: monospace;" id="shareCodeDisplay"></div>
                 <button class="btn btn-primary" onclick="copyTripCode()">📋 کپی کد</button>
             </div>
         </div>
     </div>
 
-    <!-- مودال تایید حذف -->
+    <!-- Confirm Modal -->
     <div id="confirmModal" class="modal modal-center">
         <div class="modal-content">
             <div class="modal-header">
@@ -2123,28 +1431,30 @@
                 <button class="modal-close" onclick="hideModal('confirmModal')">×</button>
             </div>
             <div class="modal-body" style="text-align: center;">
-                <p id="confirmMessage" style="color: var(--text-muted); margin-bottom: var(--space-lg);"></p>
+                <p id="confirmMessage" style="color: var(--text-muted);"></p>
             </div>
             <div class="modal-footer">
                 <div class="btn-group">
                     <button class="btn btn-outline" onclick="hideModal('confirmModal')">انصراف</button>
-                    <button class="btn btn-danger" id="confirmBtn">حذف</button>
+                    <button class="btn btn-danger" id="confirmBtn">تأیید</button>
                 </div>
             </div>
         </div>
     </div>
+
     <script>
-        // ==================== تنظیمات و متغیرهای سراسری ====================
-        const AVATARS = ['😀', '😎', '🤩', '😊', '🥳', '😇', '🤠', '🧑‍💼', '👨‍🎨', '👩‍🚀', '🧙‍♂️', '🦸‍♀️', '🧑‍🍳', '👨‍✈️', '🥷', '🧜‍♂️'];
+        // ========== CONSTANTS ==========
+        const AVATARS = ['😀', '😎', '🤩', '😊', '🥳', '😇', '🤠', '🧑‍💼', '👨‍🎨', '👩‍🚀', '🧙‍♂️', '🦸‍♀️'];
         const CATEGORIES = [
             { id: 'food', name: 'غذا', icon: '🍕' },
             { id: 'transport', name: 'حمل‌ونقل', icon: '🚗' },
-            { id: 'accommodation', name: 'اقامت', icon: '🏨' },
+            { id: 'stay', name: 'اقامت', icon: '🏨' },
             { id: 'shopping', name: 'خرید', icon: '🛍️' },
-            { id: 'entertainment', name: 'تفریح', icon: '🎢' },
+            { id: 'fun', name: 'تفریح', icon: '🎢' },
             { id: 'other', name: 'سایر', icon: '📦' }
         ];
 
+        // ========== STATE ==========
         let currentTrip = null;
         let currentUser = null;
         let selectedAvatar = '😀';
@@ -2155,100 +1465,40 @@
         let currentMemberId = null;
         let expenseChart = null;
 
-        // ==================== توابع کمکی ====================
-        function generateId() {
-            return Date.now().toString(36) + Math.random().toString(36).substr(2);
-        }
+        // ========== UTILITIES ==========
+        const generateId = () => Date.now().toString(36) + Math.random().toString(36).substr(2);
+        const generateTripCode = () => Math.random().toString(36).substr(2, 6).toUpperCase();
+        
+        const toPersian = (num) => String(num).replace(/[0-9]/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
+        const formatNumber = (num) => num ? toPersian(num.toLocale
+                                                      String('fa-IR')) : '۰';
+        const parseNumber = (str) => parseInt(String(str).replace(/[^\d]/g, '')) || 0;
 
-        function generateTripCode() {
-            return Math.random().toString(36).substr(2, 6).toUpperCase();
-        }
-
-        function formatNumber(num) {
-            if (!num) return '۰';
-            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",").replace(/[0-9]/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
-        }
-
-        function parseNumber(str) {
-            if (!str) return 0;
-            return parseInt(str.replace(/[^\d]/g, '')) || 0;
-        }
-
-        function toPersianDigits(str) {
-            return str.toString().replace(/[0-9]/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
-        }
-
-        function showToast(message, type = 'info') {
+        function showToast(msg, type = 'info') {
             const toast = document.getElementById('toast');
-            toast.textContent = message;
+            toast.textContent = msg;
             toast.className = `toast show ${type}`;
             setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
-        function showLoading() {
-            document.getElementById('loadingOverlay').classList.add('show');
-        }
-
-        function hideLoading() {
-            document.getElementById('loadingOverlay').classList.remove('show');
-        }
-
-        function showModal(modalId) {
-            document.getElementById(modalId).classList.add('show');
+        function showModal(id) {
+            document.getElementById(id).classList.add('active');
             document.body.style.overflow = 'hidden';
         }
 
-        function hideModal(modalId) {
-            document.getElementById(modalId).classList.remove('show');
+        function hideModal(id) {
+            document.getElementById(id).classList.remove('active');
             document.body.style.overflow = '';
         }
 
-        function isAdmin() {
-            return currentTrip && currentUser && currentTrip.adminId === currentUser.id;
+        function hideLoading() {
+            document.getElementById('loadingOverlay').classList.add('hide');
         }
 
-        function updateAdminUI() {
-            const adminElements = document.querySelectorAll('.admin-only');
-            adminElements.forEach(el => {
-                el.style.display = isAdmin() ? '' : 'none';
-            });
+        function showLoading() {
+            document.getElementById('loadingOverlay').classList.remove('hide');
         }
 
-        // ==================== ذخیره‌سازی ====================
-        function saveToStorage() {
-            if (currentTrip) {
-                localStorage.setItem(`trip_${currentTrip.code}`, JSON.stringify(currentTrip));
-                
-                let recentTrips = JSON.parse(localStorage.getItem('recentTrips') || '[]');
-                const existingIndex = recentTrips.findIndex(t => t.code === currentTrip.code);
-                const tripInfo = {
-                    code: currentTrip.code,
-                    name: currentTrip.name,
-                    date: currentTrip.date,
-                    memberCount: currentTrip.members.length,
-                    lastAccess: Date.now()
-                };
-                
-                if (existingIndex >= 0) {
-                    recentTrips[existingIndex] = tripInfo;
-                } else {
-                    recentTrips.unshift(tripInfo);
-                }
-                recentTrips = recentTrips.slice(0, 5);
-                localStorage.setItem('recentTrips', JSON.stringify(recentTrips));
-            }
-            
-            if (currentUser) {
-                localStorage.setItem('currentUser', JSON.stringify(currentUser));
-            }
-        }
-
-        function loadFromStorage(code) {
-            const data = localStorage.getItem(`trip_${code}`);
-            return data ? JSON.parse(data) : null;
-        }
-
-        // ==================== تنظیمات ظاهری ====================
         function toggleSettings() {
             document.getElementById('settingsPanel').classList.toggle('show');
         }
@@ -2259,39 +1509,48 @@
             document.querySelectorAll('.theme-option').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.theme === theme);
             });
+            document.getElementById('settingsPanel').classList.remove('show');
         }
 
-        function setFontSize(size) {
-            document.documentElement.setAttribute('data-font-size', size);
-            localStorage.setItem('fontSize', size);
-            document.querySelectorAll('.settings-option[data-font]').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.font === size);
-            });
+        function isAdmin() {
+            return currentTrip && currentUser && currentTrip.adminId === currentUser.id;
         }
 
-        function initSettings() {
-            const savedTheme = localStorage.getItem('theme') || 'night';
-            const savedFontSize = localStorage.getItem('fontSize') || 'medium';
-            setTheme(savedTheme);
-            setFontSize(savedFontSize);
-
-            document.querySelectorAll('.theme-option').forEach(btn => {
-                btn.addEventListener('click', () => setTheme(btn.dataset.theme));
-            });
-
-            document.querySelectorAll('.settings-option[data-font]').forEach(btn => {
-                btn.addEventListener('click', () => setFontSize(btn.dataset.font));
-            });
-
-            document.addEventListener('click', (e) => {
-                const panel = document.getElementById('settingsPanel');
-                if (panel.classList.contains('show') && !panel.contains(e.target) && !e.target.closest('[onclick*="toggleSettings"]')) {
-                    panel.classList.remove('show');
-                }
-            });
+        function updateAdminUI() {
+            document.body.classList.toggle('is-admin', isAdmin());
         }
 
-        // ==================== ناوبری ====================
+        // ========== STORAGE ==========
+        function saveToStorage() {
+            if (currentTrip) {
+                localStorage.setItem(`trip_${currentTrip.code}`, JSON.stringify(currentTrip));
+                
+                let recent = JSON.parse(localStorage.getItem('recentTrips') || '[]');
+                const idx = recent.findIndex(t => t.code === currentTrip.code);
+                const info = {
+                    code: currentTrip.code,
+                    name: currentTrip.name,
+                    date: currentTrip.date,
+                    memberCount: currentTrip.members.length,
+                    lastAccess: Date.now()
+                };
+                
+                if (idx >= 0) recent[idx] = info;
+                else recent.unshift(info);
+                
+                localStorage.setItem('recentTrips', JSON.stringify(recent.slice(0, 5)));
+            }
+            if (currentUser) {
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            }
+        }
+
+        function loadFromStorage(code) {
+            const data = localStorage.getItem(`trip_${code}`);
+            return data ? JSON.parse(data) : null;
+        }
+
+        // ========== NAVIGATION ==========
         function switchTab(tab) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
@@ -2299,59 +1558,68 @@
             document.getElementById(`${tab}Screen`).classList.add('active');
             document.querySelector(`.nav-item[data-tab="${tab}"]`)?.classList.add('active');
             
-            if (tab === 'reports') {
-                setTimeout(renderChart, 100);
-            }
+            if (tab === 'reports') setTimeout(renderChart, 100);
         }
 
-        function initNavigation() {
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.addEventListener('click', () => switchTab(item.dataset.tab));
-            });
+        function showTripScreen() {
+            document.getElementById('welcomeScreen').classList.remove('active');
+            document.getElementById('homeScreen').classList.add('active');
+            document.getElementById('bottomNav').style.display = 'flex';
+            document.getElementById('fabBtn').style.display = 'flex';
+            
+            updateAdminUI();
+            renderAll();
         }
 
-        // ==================== آواتار ====================
+        function showWelcomeScreen() {
+            currentTrip = null;
+            currentUser = null;
+            
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById('welcomeScreen').classList.add('active');
+            document.getElementById('bottomNav').style.display = 'none';
+            document.getElementById('fabBtn').style.display = 'none';
+            
+            loadRecentTrips();
+        }
+
+        // ========== AVATARS ==========
         function renderAvatarGrid(containerId, selected = '😀') {
             const container = document.getElementById(containerId);
             if (!container) return;
             
-            container.innerHTML = AVATARS.map(avatar => `
-                <button type="button" class="avatar-btn ${avatar === selected ? 'active' : ''}" 
-                        onclick="selectAvatar('${containerId}', '${avatar}')">
-                    ${avatar}
-                </button>
+            container.innerHTML = AVATARS.map(a => `
+                <div class="avatar-option ${a === selected ? 'selected' : ''}" onclick="selectAvatar('${containerId}', '${a}')">${a}</div>
             `).join('');
         }
 
         function selectAvatar(containerId, avatar) {
             selectedAvatar = avatar;
-            document.querySelectorAll(`#${containerId} .avatar-btn`).forEach(btn => {
-                btn.classList.toggle('active', btn.textContent.trim() === avatar);
+            document.querySelectorAll(`#${containerId} .avatar-option`).forEach(el => {
+                el.classList.toggle('selected', el.textContent === avatar);
             });
         }
 
-        // ==================== دسته‌بندی ====================
+        // ========== CATEGORIES ==========
         function renderCategoryGrid(containerId, selected = 'food') {
             const container = document.getElementById(containerId);
             if (!container) return;
             
-            container.innerHTML = CATEGORIES.map(cat => `
-                <button type="button" class="category-btn ${cat.id === selected ? 'active' : ''}" 
-                        onclick="selectCategory('${containerId}', '${cat.id}')">
-                    ${cat.icon}
-                </button>
+            container.innerHTML = CATEGORIES.map(c => `
+                <div class="category-option ${c.id === selected ? 'selected' : ''}" onclick="selectCategory('${containerId}', '${c.id}')">
+                    <span class="icon">${c.icon}</span>
+                    <span class="label">${c.name}</span>
+                </div>
             `).join('');
         }
 
         function selectCategory(containerId, catId) {
-            if (containerId === 'editCategoryGrid') {
-                selectedEditCategory = catId;
-            } else {
-                selectedCategory = catId;
-            }
-            document.querySelectorAll(`#${containerId} .category-btn`).forEach(btn => {
-                const cat = CATEGORIES.find(c => c.icon === btn.textContent.trim());
-                btn.classList.toggle('active', cat && cat.id === catId);
+            if (containerId === 'editCategoryGrid') selectedEditCategory = catId;
+            else selectedCategory = catId;
+            
+            document.querySelectorAll(`#${containerId} .category-option`).forEach(el => {
+                const cat = CATEGORIES.find(c => c.icon === el.querySelector('.icon').textContent);
+                el.classList.toggle('selected', cat && cat.id === catId);
             });
         }
 
@@ -2359,52 +1627,97 @@
             return CATEGORIES.find(c => c.id === catId) || CATEGORIES[5];
         }
 
-        // ==================== سفر ====================
+        // ========== RECENT TRIPS ==========
+        function loadRecentTrips() {
+            const recent = JSON.parse(localStorage.getItem('recentTrips') || '[]');
+            const container = document.getElementById('recentTripsList');
+            const wrapper = document.getElementById('recentTrips');
+            
+            if (recent.length === 0) {
+                wrapper.style.display = 'none';
+                return;
+            }
+            
+            wrapper.style.display = 'block';
+            container.innerHTML = recent.map(trip => `
+                <div class="recent-trip-item" onclick="loadTrip('${trip.code}')">
+                    <div class="recent-trip-icon">🏝️</div>
+                    <div class="recent-trip-info">
+                        <div class="recent-trip-name">${trip.name}</div>
+                        <div class="recent-trip-meta">👥 ${toPersian(trip.memberCount)} نفر • ${trip.date || 'بدون تاریخ'}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function loadTrip(code) {
+            showLoading();
+            
+            setTimeout(() => {
+                const trip = loadFromStorage(code);
+                const savedUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+                
+                if (!trip) {
+                    hideLoading();
+                    showToast('سفر یافت نشد', 'error');
+                    return;
+                }
+
+                currentTrip = trip;
+                currentUser = (savedUser && trip.members.find(m => m.id === savedUser.id)) 
+                    ? savedUser 
+                    : trip.members[0];
+
+                hideLoading();
+                showTripScreen();
+            }, 300);
+        }
+
+        // ========== TRIP MANAGEMENT ==========
         function createTrip() {
             const name = document.getElementById('newTripName').value.trim();
             const date = document.getElementById('newTripDate').value.trim();
             const adminName = document.getElementById('adminName').value.trim();
 
             if (!name || !adminName) {
-                showToast('لطفاً نام سفر و نام خود را وارد کنید', 'error');
+                showToast('نام سفر و نام خود را وارد کنید', 'error');
                 return;
             }
 
             showLoading();
 
-            const tripCode = generateTripCode();
-            const adminId = generateId();
-
-            currentUser = {
-                id: adminId,
-                name: adminName,
-                avatar: selectedAvatar,
-                joinedAt: Date.now()
-            };
-
-            currentTrip = {
-                code: tripCode,
-                name: name,
-                date: date || 'نامشخص',
-                adminId: adminId,
-                members: [currentUser],
-                expenses: [],
-                createdAt: Date.now()
-            };
-
-            saveToStorage();
-            
             setTimeout(() => {
+                const tripCode = generateTripCode();
+                const adminId = generateId();
+
+                currentUser = {
+                    id: adminId,
+                    name: adminName,
+                    avatar: selectedAvatar,
+                    joinedAt: Date.now()
+                };
+
+                currentTrip = {
+                    code: tripCode,
+                    name: name,
+                    date: date || 'بدون تاریخ',
+                    adminId: adminId,
+                    members: [currentUser],
+                    expenses: [],
+                    createdAt: Date.now()
+                };
+
+                saveToStorage();
                 hideLoading();
                 hideModal('createTripModal');
                 showTripScreen();
-                showToast('سفر با موفقیت ایجاد شد! 🎉', 'success');
+                showToast('سفر ایجاد شد! 🎉', 'success');
                 
                 setTimeout(() => {
-                    showModal('shareModal');
                     document.getElementById('shareCodeDisplay').textContent = tripCode;
+                    showModal('shareModal');
                 }, 500);
-            }, 800);
+            }, 500);
         }
 
         function joinTrip() {
@@ -2412,24 +1725,24 @@
             const memberName = document.getElementById('joinMemberName').value.trim();
 
             if (!code || !memberName) {
-                showToast('لطفاً کد سفر و نام خود را وارد کنید', 'error');
+                showToast('کد سفر و نام خود را وارد کنید', 'error');
                 return;
             }
 
             showLoading();
 
-            const trip = loadFromStorage(code);
-            
             setTimeout(() => {
+                const trip = loadFromStorage(code);
+                
                 if (!trip) {
                     hideLoading();
-                    showToast('سفر با این کد یافت نشد', 'error');
+                    showToast('سفر یافت نشد', 'error');
                     return;
                 }
 
-                const existingMember = trip.members.find(m => m.name === memberName);
-                if (existingMember) {
-                    currentUser = existingMember;
+                const existing = trip.members.find(m => m.name === memberName);
+                if (existing) {
+                    currentUser = existing;
                 } else {
                     currentUser = {
                         id: generateId(),
@@ -2442,82 +1755,10 @@
 
                 currentTrip = trip;
                 saveToStorage();
-                
                 hideLoading();
                 hideModal('joinTripModal');
                 showTripScreen();
-                showToast(`به سفر "${trip.name}" خوش آمدید! 🎉`, 'success');
-            }, 800);
-        }
-
-        function showTripScreen() {
-            document.getElementById('welcomeScreen').classList.remove('active');
-            document.getElementById('homeScreen').classList.add('active');
-            document.querySelector('.bottom-nav').style.display = 'flex';
-            document.getElementById('fabAddExpense').style.display = isAdmin() ? 'flex' : 'none';
-            
-            updateAdminUI();
-            renderAll();
-        }
-
-        function showWelcomeScreen() {
-            currentTrip = null;
-            currentUser = null;
-            
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            document.getElementById('welcomeScreen').classList.add('active');
-            document.querySelector('.bottom-nav').style.display = 'none';
-            document.getElementById('fabAddExpense').style.display = 'none';
-            
-            loadRecentTrips();
-        }
-
-        function loadRecentTrips() {
-            const recentTrips = JSON.parse(localStorage.getItem('recentTrips') || '[]');
-            const container = document.getElementById('recentTripsList');
-            const wrapper = document.getElementById('recentTrips');
-            
-            if (recentTrips.length === 0) {
-                wrapper.style.display = 'none';
-                return;
-            }
-            
-            wrapper.style.display = 'block';
-            container.innerHTML = recentTrips.map(trip => `
-                <div class="recent-trip-item" onclick="loadTrip('${trip.code}')">
-                    <div class="recent-trip-icon">🏝️</div>
-                    <div class="recent-trip-info">
-                        <div class="recent-trip-name">${trip.name}</div>
-                        <div class="recent-trip-meta">👥 ${toPersianDigits(trip.memberCount)} نفر • ${trip.date}</div>
-                    </div>
-                    <span style="color: var(--text-muted);">←</span>
-                </div>
-            `).join('');
-        }
-
-        function loadTrip(code) {
-            showLoading();
-            
-            const trip = loadFromStorage(code);
-            const savedUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
-            
-            setTimeout(() => {
-                if (!trip) {
-                    hideLoading();
-                    showToast('سفر یافت نشد', 'error');
-                    return;
-                }
-
-                currentTrip = trip;
-                
-                if (savedUser && trip.members.find(m => m.id === savedUser.id)) {
-                    currentUser = savedUser;
-                } else {
-                    currentUser = trip.members[0];
-                }
-
-                hideLoading();
-                showTripScreen();
+                showToast(`به "${trip.name}" خوش آمدید! 🎉`, 'success');
             }, 500);
         }
 
@@ -2530,24 +1771,22 @@
             saveToStorage();
             hideModal('editTripModal');
             renderAll();
-            showToast('تغییرات ذخیره شد', 'success');
+            showToast('ذخیره شد', 'success');
         }
 
         function confirmDeleteTrip() {
             document.getElementById('confirmTitle').textContent = '⚠️ حذف سفر';
-            document.getElementById('confirmMessage').textContent = 'آیا مطمئن هستید؟ تمام اطلاعات این سفر حذف خواهد شد.';
+            document.getElementById('confirmMessage').textContent = 'تمام اطلاعات حذف می‌شود. مطمئنید؟';
             document.getElementById('confirmBtn').onclick = deleteTrip;
             showModal('confirmModal');
         }
 
         function deleteTrip() {
-            if (!currentTrip) return;
-            
             localStorage.removeItem(`trip_${currentTrip.code}`);
             
-            let recentTrips = JSON.parse(localStorage.getItem('recentTrips') || '[]');
-            recentTrips = recentTrips.filter(t => t.code !== currentTrip.code);
-            localStorage.setItem('recentTrips', JSON.stringify(recentTrips));
+            let recent = JSON.parse(localStorage.getItem('recentTrips') || '[]');
+            recent = recent.filter(t => t.code !== currentTrip.code);
+            localStorage.setItem('recentTrips', JSON.stringify(recent));
             
             hideModal('confirmModal');
             hideModal('editTripModal');
@@ -2556,24 +1795,22 @@
         }
 
         function shareTripCode() {
-            if (!currentTrip) return;
             document.getElementById('shareCodeDisplay').textContent = currentTrip.code;
             showModal('shareModal');
         }
 
         function copyTripCode() {
-            if (!currentTrip) return;
             navigator.clipboard.writeText(currentTrip.code).then(() => {
                 showToast('کد کپی شد! 📋', 'success');
             });
         }
 
-        // ==================== اعضا ====================
+        // ========== MEMBER MANAGEMENT ==========
         function addMember() {
             const name = document.getElementById('newMemberName').value.trim();
             
             if (!name) {
-                showToast('لطفاً نام عضو را وارد کنید', 'error');
+                showToast('نام عضو را وارد کنید', 'error');
                 return;
             }
 
@@ -2582,20 +1819,18 @@
                 return;
             }
 
-            const newMember = {
+            currentTrip.members.push({
                 id: generateId(),
                 name: name,
                 avatar: selectedAvatar,
                 joinedAt: Date.now()
-            };
+            });
 
-            currentTrip.members.push(newMember);
             saveToStorage();
-            
             hideModal('addMemberModal');
             document.getElementById('newMemberName').value = '';
             renderAll();
-            showToast('عضو جدید اضافه شد', 'success');
+            showToast('عضو اضافه شد', 'success');
         }
 
         function showMemberDetail(memberId) {
@@ -2607,28 +1842,27 @@
             const paid = calculateMemberPaid(memberId);
             const share = calculateMemberShare(memberId);
 
-            const container = document.getElementById('memberDetailContent');
-            container.innerHTML = `
-                <div style="text-align: center; margin-bottom: var(--space-xl);">
-                    <div style="font-size: 4rem; margin-bottom: var(--space-md);">${member.avatar}</div>
-                    <h3 style="font-size: var(--font-xl); margin-bottom: var(--space-sm);">${member.name}</h3>
+            document.getElementById('memberDetailContent').innerHTML = `
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <div style="font-size: 60px; margin-bottom: 12px;">${member.avatar}</div>
+                    <h3 style="font-size: 20px; margin-bottom: 8px;">${member.name}</h3>
                     ${member.id === currentTrip.adminId ? '<span class="card-badge" style="background: var(--warning);">👑 مدیر</span>' : ''}
                 </div>
                 
-                <div class="stats-grid" style="grid-template-columns: 1fr 1fr;">
+                <div class="stats-grid">
                     <div class="stat-card info">
                         <div class="stat-value">${formatNumber(paid)}</div>
                         <div class="stat-label">پرداخت کرده</div>
                     </div>
                     <div class="stat-card warning">
                         <div class="stat-value">${formatNumber(share)}</div>
-                        <div class="stat-label">سهم از هزینه‌ها</div>
+                        <div class="stat-label">سهم از هزینه</div>
                     </div>
                 </div>
                 
-                <div class="stat-card ${balance >= 0 ? 'success' : 'danger'}" style="margin-top: var(--space-md);">
+                <div class="stat-card ${balance >= 0 ? 'success' : 'danger'}" style="margin-top: 12px;">
                     <div class="stat-value">${balance >= 0 ? '+' : ''}${formatNumber(balance)}</div>
-                    <div class="stat-label">${balance >= 0 ? 'طلبکار است' : 'بدهکار است'}</div>
+                    <div class="stat-label">${balance >= 0 ? 'طلبکار' : 'بدهکار'}</div>
                 </div>
             `;
 
@@ -2640,32 +1874,30 @@
             if (!member) return;
 
             hideModal('memberDetailModal');
-            
             document.getElementById('editMemberId').value = member.id;
             document.getElementById('editMemberName').value = member.name;
             selectedAvatar = member.avatar;
             renderAvatarGrid('editMemberAvatarGrid', member.avatar);
-            
             showModal('editMemberModal');
         }
 
         function updateMember() {
             const memberId = document.getElementById('editMemberId').value;
-            const memberIndex = currentTrip.members.findIndex(m => m.id === memberId);
+            const idx = currentTrip.members.findIndex(m => m.id === memberId);
             
-            if (memberIndex < 0) return;
+            if (idx < 0) return;
 
-            currentTrip.members[memberIndex].name = document.getElementById('editMemberName').value.trim();
-            currentTrip.members[memberIndex].avatar = selectedAvatar;
+            currentTrip.members[idx].name = document.getElementById('editMemberName').value.trim();
+            currentTrip.members[idx].avatar = selectedAvatar;
             
             if (currentUser.id === memberId) {
-                currentUser = currentTrip.members[memberIndex];
+                currentUser = currentTrip.members[idx];
             }
 
             saveToStorage();
             hideModal('editMemberModal');
             renderAll();
-            showToast('اطلاعات عضو بروزرسانی شد', 'success');
+            showToast('عضو بروزرسانی شد', 'success');
         }
 
         function removeCurrentMember() {
@@ -2673,45 +1905,35 @@
             if (!member) return;
 
             if (member.id === currentTrip.adminId) {
-                showToast('مدیر سفر قابل حذف نیست', 'error');
+                showToast('مدیر قابل حذف نیست', 'error');
                 return;
             }
 
             document.getElementById('confirmTitle').textContent = '🚪 حذف عضو';
-            document.getElementById('confirmMessage').textContent = `آیا از حذف "${member.name}" مطمئن هستید؟ هزینه‌های پرداختی این عضو بین بقیه تقسیم می‌شود.`;
+            document.getElementById('confirmMessage').textContent = `"${member.name}" حذف شود؟`;
             document.getElementById('confirmBtn').onclick = () => {
-                redistributeMemberExpenses(currentMemberId);
+                // حذف عضو از هزینه‌ها
+                currentTrip.expenses.forEach(exp => {
+                    exp.splitBetween = exp.splitBetween.filter(id => id !== currentMemberId);
+                    if (exp.splitBetween.length === 0) {
+                        exp.splitBetween = currentTrip.members.filter(m => m.id !== currentMemberId).map(m => m.id);
+                    }
+                    if (exp.payerId === currentMemberId) {
+                        exp.payerId = currentTrip.adminId;
+                    }
+                });
+                
                 currentTrip.members = currentTrip.members.filter(m => m.id !== currentMemberId);
                 saveToStorage();
                 hideModal('confirmModal');
                 hideModal('memberDetailModal');
                 renderAll();
-                showToast('عضو از سفر حذف شد', 'success');
+                showToast('عضو حذف شد', 'success');
             };
             showModal('confirmModal');
         }
 
-        function redistributeMemberExpenses(memberId) {
-            const remainingMembers = currentTrip.members.filter(m => m.id !== memberId);
-            if (remainingMembers.length === 0) return;
-
-            currentTrip.expenses.forEach(expense => {
-                // حذف از لیست تقسیم
-                if (expense.splitBetween) {
-                    expense.splitBetween = expense.splitBetween.filter(id => id !== memberId);
-                    if (expense.splitBetween.length === 0) {
-                        expense.splitBetween = remainingMembers.map(m => m.id);
-                    }
-                }
-                
-                // اگر پرداخت‌کننده بود، به مدیر منتقل شود
-                if (expense.payerId === memberId) {
-                    expense.payerId = currentTrip.adminId;
-                }
-            });
-        }
-
-        // ==================== هزینه‌ها ====================
+        // ========== EXPENSE MANAGEMENT ==========
         function setSplitType(type) {
             splitType = type;
             document.querySelectorAll('.split-toggle-btn').forEach(btn => {
@@ -2727,25 +1949,27 @@
                 `<option value="${m.id}" ${m.id === currentUser.id ? 'selected' : ''}>${m.avatar} ${m.name}</option>`
             ).join('');
 
-            const splitList = document.getElementById('splitMembersList');
-            splitList.innerHTML = currentTrip.members.map(m => `
+            document.getElementById('splitMembersList').innerHTML = currentTrip.members.map(m => `
                 <label class="checkbox-item">
-                    <input type="checkbox" class="checkbox-input" value="${m.id}" checked>
-                    <span class="checkbox-custom"></span>
+                    <input type="checkbox" value="${m.id}" checked>
                     <span>${m.avatar} ${m.name}</span>
                 </label>
             `).join('');
 
-            const customList = document.getElementById('customSplitList');
-            customList.innerHTML = currentTrip.members.map(m => `
+            document.getElementById('customSplitList').innerHTML = currentTrip.members.map(m => `
                 <div class="custom-split-item">
-                    <span>${m.avatar} ${m.name}</span>
-                    <input type="text" class="form-input custom-split-input" data-member="${m.id}" placeholder="۰" inputmode="numeric" dir="ltr" style="width: 120px;">
+                    <div class="info">
+                        <span class="avatar">${m.avatar}</span>
+                        <span class="name">${m.name}</span>
+                    </div>
+                    <input type="text" data-member="${m.id}" placeholder="۰" inputmode="numeric">
                 </div>
             `).join('');
 
             renderCategoryGrid('categoryGrid', 'food');
             selectedCategory = 'food';
+            splitType = 'equal';
+            setSplitType('equal');
         }
 
         function saveExpense() {
@@ -2754,7 +1978,7 @@
             const payerId = document.getElementById('expensePayer').value;
 
             if (!title || !amount) {
-                showToast('لطفاً عنوان و مبلغ را وارد کنید', 'error');
+                showToast('عنوان و مبلغ را وارد کنید', 'error');
                 return;
             }
 
@@ -2766,7 +1990,7 @@
                     splitBetween.push(cb.value);
                 });
             } else {
-                document.querySelectorAll('.custom-split-input').forEach(input => {
+                document.querySelectorAll('#customSplitList input').forEach(input => {
                     const amt = parseNumber(input.value);
                     if (amt > 0) {
                         splitBetween.push(input.dataset.member);
@@ -2776,29 +2000,26 @@
             }
 
             if (splitBetween.length === 0) {
-                showToast('لطفاً حداقل یک نفر برای تقسیم انتخاب کنید', 'error');
+                showToast('حداقل یک نفر انتخاب کنید', 'error');
                 return;
             }
 
-            const expense = {
+            currentTrip.expenses.push({
                 id: generateId(),
-                title: title,
-                amount: amount,
+                title,
+                amount,
                 category: selectedCategory,
-                payerId: payerId,
-                splitBetween: splitBetween,
-                splitType: splitType,
+                payerId,
+                splitBetween,
+                splitType,
                 customAmounts: splitType === 'custom' ? customAmounts : null,
                 createdAt: Date.now()
-            };
+            });
 
-            currentTrip.expenses.push(expense);
             saveToStorage();
-
             hideModal('addExpenseModal');
             document.getElementById('expenseTitle').value = '';
             document.getElementById('expenseAmount').value = '';
-            
             renderAll();
             showToast('هزینه ثبت شد ✅', 'success');
         }
@@ -2810,13 +2031,13 @@
             currentExpenseId = expenseId;
             const payer = currentTrip.members.find(m => m.id === expense.payerId);
             const cat = getCategoryInfo(expense.category);
+            const perPerson = Math.round(expense.amount / expense.splitBetween.length);
 
-            const container = document.getElementById('expenseDetailContent');
-            container.innerHTML = `
-                <div style="text-align: center; margin-bottom: var(--space-xl);">
-                    <div style="font-size: 3rem; margin-bottom: var(--space-md);">${cat.icon}</div>
-                    <h3 style="font-size: var(--font-xl); margin-bottom: var(--space-sm);">${expense.title}</h3>
-                    <div style="font-size: var(--font-2xl); font-weight: 800; color: var(--primary);">
+            document.getElementById('expenseDetailContent').innerHTML = `
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <div style="font-size: 48px; margin-bottom: 12px;">${cat.icon}</div>
+                    <h3 style="font-size: 18px; margin-bottom: 8px;">${expense.title}</h3>
+                    <div style="font-size: 24px; font-weight: 800; color: var(--primary);">
                         ${formatNumber(expense.amount)} تومان
                     </div>
                 </div>
@@ -2832,25 +2053,23 @@
                     </div>
                     <div class="info-row">
                         <span>👥 تقسیم بین:</span>
-                        <span>${toPersianDigits(expense.splitBetween.length)} نفر</span>
+                        <span>${toPersian(expense.splitBetween.length)} نفر</span>
                     </div>
                     <div class="info-row">
                         <span>💰 سهم هر نفر:</span>
-                        <span>${formatNumber(Math.round(expense.amount / expense.splitBetween.length))} تومان</span>
+                        <span>${formatNumber(perPerson)} تومان</span>
                     </div>
                 </div>
                 
-                <div class="divider">اعضای شریک</div>
+                <div class="divider">شریک‌ها</div>
                 <div class="split-members-list">
                     ${expense.splitBetween.map(id => {
-                        const m = currentTrip.members.find(member => member.id === id);
-                        const share = expense.customAmounts ? expense.customAmounts[id] : Math.round(expense.amount / expense.splitBetween.length);
-                        return `
-                            <div class="split-member-item">
-                                <span>${m?.avatar || '👤'} ${m?.name || 'نامشخص'}</span>
-                                <span>${formatNumber(share)} تومان</span>
-                            </div>
-                        `;
+                        const m = currentTrip.members.find(x => x.id === id);
+                        const share = expense.customAmounts?.[id] || perPerson;
+                        return `<div class="split-member-item">
+                            <span>${m?.avatar || '👤'} ${m?.name || 'نامشخص'}</span>
+                            <span>${formatNumber(share)} تومان</span>
+                        </div>`;
                     }).join('')}
                 </div>
             `;
@@ -2868,8 +2087,7 @@
             document.getElementById('editExpenseTitle').value = expense.title;
             document.getElementById('editExpenseAmount').value = formatNumber(expense.amount);
             
-            const editPayerSelect = document.getElementById('editExpensePayer');
-            editPayerSelect.innerHTML = currentTrip.members.map(m => 
+            document.getElementById('editExpensePayer').innerHTML = currentTrip.members.map(m => 
                 `<option value="${m.id}" ${m.id === expense.payerId ? 'selected' : ''}>${m.avatar} ${m.name}</option>`
             ).join('');
             
@@ -2881,14 +2099,14 @@
 
         function updateExpense() {
             const expenseId = document.getElementById('editExpenseId').value;
-            const expenseIndex = currentTrip.expenses.findIndex(e => e.id === expenseId);
+            const idx = currentTrip.expenses.findIndex(e => e.id === expenseId);
             
-            if (expenseIndex < 0) return;
+            if (idx < 0) return;
 
-            currentTrip.expenses[expenseIndex].title = document.getElementById('editExpenseTitle').value.trim();
-            currentTrip.expenses[expenseIndex].amount = parseNumber(document.getElementById('editExpenseAmount').value);
-            currentTrip.expenses[expenseIndex].category = selectedEditCategory;
-            currentTrip.expenses[expenseIndex].payerId = document.getElementById('editExpensePayer').value;
+            currentTrip.expenses[idx].title = document.getElementById('editExpenseTitle').value.trim();
+            currentTrip.expenses[idx].amount = parseNumber(document.getElementById('editExpenseAmount').value);
+            currentTrip.expenses[idx].category = selectedEditCategory;
+            currentTrip.expenses[idx].payerId = document.getElementById('editExpensePayer').value;
 
             saveToStorage();
             hideModal('editExpenseModal');
@@ -2898,7 +2116,7 @@
 
         function deleteCurrentExpense() {
             document.getElementById('confirmTitle').textContent = '🗑️ حذف هزینه';
-            document.getElementById('confirmMessage').textContent = 'آیا از حذف این هزینه مطمئن هستید؟';
+            document.getElementById('confirmMessage').textContent = 'این هزینه حذف شود؟';
             document.getElementById('confirmBtn').onclick = () => {
                 currentTrip.expenses = currentTrip.expenses.filter(e => e.id !== currentExpenseId);
                 saveToStorage();
@@ -2910,7 +2128,7 @@
             showModal('confirmModal');
         }
 
-        // ==================== محاسبات ====================
+        // ========== CALCULATIONS ==========
         function calculateMemberPaid(memberId) {
             return currentTrip.expenses
                 .filter(e => e.payerId === memberId)
@@ -2918,13 +2136,10 @@
         }
 
         function calculateMemberShare(memberId) {
-            return currentTrip.expenses.reduce((sum, expense) => {
-                if (!expense.splitBetween.includes(memberId)) return sum;
-                
-                if (expense.customAmounts && expense.customAmounts[memberId]) {
-                    return sum + expense.customAmounts[memberId];
-                }
-                return sum + Math.round(expense.amount / expense.splitBetween.length);
+            return currentTrip.expenses.reduce((sum, exp) => {
+                if (!exp.splitBetween.includes(memberId)) return sum;
+                if (exp.customAmounts?.[memberId]) return sum + exp.customAmounts[memberId];
+                return sum + Math.round(exp.amount / exp.splitBetween.length);
             }, 0);
         }
 
@@ -2934,9 +2149,7 @@
 
         function calculateSettlements() {
             const balances = currentTrip.members.map(m => ({
-                id: m.id,
-                name: m.name,
-                avatar: m.avatar,
+                ...m,
                 balance: calculateMemberBalance(m.id)
             }));
 
@@ -2944,59 +2157,54 @@
             const creditors = balances.filter(b => b.balance > 0).sort((a, b) => b.balance - a.balance);
             
             const settlements = [];
-
             let i = 0, j = 0;
+
             while (i < debtors.length && j < creditors.length) {
-                const debtor = debtors[i];
-                const creditor = creditors[j];
-                
-                const amount = Math.min(-debtor.balance, creditor.balance);
+                const amount = Math.min(-debtors[i].balance, creditors[j].balance);
                 
                 if (amount > 0) {
                     settlements.push({
-                        from: debtor,
-                        to: creditor,
+                        from: debtors[i],
+                        to: creditors[j],
                         amount: Math.round(amount)
                     });
                 }
 
-                debtor.balance += amount;
-                creditor.balance -= amount;
+                debtors[i].balance += amount;
+                creditors[j].balance -= amount;
 
-                if (Math.abs(debtor.balance) < 1) i++;
-                if (Math.abs(creditor.balance) < 1) j++;
+                if (Math.abs(debtors[i].balance) < 1) i++;
+                if (Math.abs(creditors[j].balance) < 1) j++;
             }
 
             return settlements;
         }
 
-        // ==================== رندرینگ ====================
+        // ========== RENDERING ==========
         function renderAll() {
             if (!currentTrip) return;
 
-            // هدر
+            // Header
             document.getElementById('tripNameDisplay').textContent = currentTrip.name;
-            document.getElementById('memberCountDisplay').textContent = toPersianDigits(currentTrip.members.length);
+            document.getElementById('memberCountDisplay').textContent = toPersian(currentTrip.members.length);
             document.getElementById('tripDateDisplay').textContent = currentTrip.date;
-            
-            // ویرایش سفر
             document.getElementById('editTripName').value = currentTrip.name;
             document.getElementById('editTripDate').value = currentTrip.date;
 
-            // آمار
-            const totalExpenses = currentTrip.expenses.reduce((sum, e) => sum + e.amount, 0);
-            const activeMembers = currentTrip.members.length;
-            const perPerson = activeMembers > 0 ? Math.round(totalExpenses / activeMembers) : 0;
+            // Stats
+            const total = currentTrip.expenses.reduce((sum, e) => sum + e.amount, 0);
+            const perPerson = currentTrip.members.length > 0 ? Math.round(total / currentTrip.members.length) : 0;
             const myBalance = currentUser ? calculateMemberBalance(currentUser.id) : 0;
 
-            document.getElementById('totalExpenses').textContent = formatNumber(totalExpenses);
+            document.getElementById('totalExpenses').textContent = formatNumber(total);
             document.getElementById('perPersonAvg').textContent = formatNumber(perPerson);
-            document.getElementById('expenseCount').textContent = toPersianDigits(currentTrip.expenses.length);
-            document.getElementById('expensesBadge').textContent = toPersianDigits(currentTrip.expenses.length);
+            document.getElementById('expenseCount').textContent = toPersian(currentTrip.expenses.length);
+            document.getElementById('expensesBadge').textContent = toPersian(currentTrip.expenses.length);
             
             const myBalanceEl = document.getElementById('myBalance');
+            const myBalanceCard = document.getElementById('myBalanceCard');
             myBalanceEl.textContent = (myBalance >= 0 ? '+' : '') + formatNumber(myBalance);
-            myBalanceEl.parentElement.className = `stat-card ${myBalance >= 0 ? 'success' : 'danger'}`;
+            myBalanceCard.className = `stat-card ${myBalance >= 0 ? 'success' : 'danger'}`;
 
             renderQuickBalance();
             renderRecentExpenses();
@@ -3009,45 +2217,40 @@
         }
 
         function renderQuickBalance() {
-            const container = document.getElementById('quickBalanceList');
-            container.innerHTML = currentTrip.members.slice(0, 4).map(member => {
-                const balance = calculateMemberBalance(member.id);
-                return `
-                    <div class="balance-item">
-                        <div class="balance-info">
-                            <span class="balance-avatar">${member.avatar}</span>
-                            <span class="balance-name">${member.name}</span>
-                        </div>
-                        <span class="balance-amount ${balance >= 0 ? 'positive' : 'negative'}">
-                            ${balance >= 0 ? '+' : ''}${formatNumber(balance)}
-                        </span>
+            document.getElementById('quickBalanceList').innerHTML = currentTrip.members.slice(0, 4).map(m => {
+                const balance = calculateMemberBalance(m.id);
+                return `<div class="balance-item">
+                    <div class="balance-info">
+                        <span class="balance-avatar">${m.avatar}</span>
+                        <span class="balance-name">${m.name}</span>
                     </div>
-                `;
+                    <span class="balance-amount ${balance >= 0 ? 'positive' : 'negative'}">
+                        ${balance >= 0 ? '+' : ''}${formatNumber(balance)}
+                    </span>
+                </div>`;
             }).join('');
         }
 
         function renderRecentExpenses() {
-            const container = document.getElementById('recentExpensesList');
             const recent = [...currentTrip.expenses].reverse().slice(0, 3);
+            const container = document.getElementById('recentExpensesList');
             
             if (recent.length === 0) {
-                container.innerHTML = '<div class="empty-state"><div class="empty-icon">📝</div><p>هنوز هزینه‌ای ثبت نشده</p></div>';
+                container.innerHTML = '<div class="empty-state"><div class="icon">📝</div><p>هنوز هزینه‌ای ثبت نشده</p></div>';
                 return;
             }
 
-            container.innerHTML = recent.map(expense => {
-                const cat = getCategoryInfo(expense.category);
-                const payer = currentTrip.members.find(m => m.id === expense.payerId);
-                return `
-                    <div class="expense-item" onclick="showExpenseDetail('${expense.id}')">
-                        <div class="expense-icon">${cat.icon}</div>
-                        <div class="expense-info">
-                            <div class="expense-title">${expense.title}</div>
-                            <div class="expense-meta">${payer?.name || 'نامشخص'} • ${cat.name}</div>
-                        </div>
-                        <div class="expense-amount">${formatNumber(expense.amount)}</div>
+            container.innerHTML = recent.map(exp => {
+                const cat = getCategoryInfo(exp.category);
+                const payer = currentTrip.members.find(m => m.id === exp.payerId);
+                return `<div class="expense-item" onclick="showExpenseDetail('${exp.id}')">
+                    <div class="expense-icon">${cat.icon}</div>
+                    <div class="expense-info">
+                        <div class="expense-title">${exp.title}</div>
+                        <div class="expense-meta">${payer?.name || 'نامشخص'} • ${cat.name}</div>
                     </div>
-                `;
+                    <div class="expense-amount">${formatNumber(exp.amount)}</div>
+                </div>`;
             }).join('');
         }
 
@@ -3055,112 +2258,87 @@
             const container = document.getElementById('expensesList');
             
             if (currentTrip.expenses.length === 0) {
-                container.innerHTML = '<div class="empty-state"><div class="empty-icon">🧾</div><p>هنوز هزینه‌ای ثبت نشده</p></div>';
+                container.innerHTML = '<div class="empty-state"><div class="icon">🧾</div><p>هنوز هزینه‌ای ثبت نشده</p></div>';
                 return;
             }
 
-            const sorted = [...currentTrip.expenses].reverse();
-            container.innerHTML = sorted.map(expense => {
-                const cat = getCategoryInfo(expense.category);
-                const payer = currentTrip.members.find(m => m.id === expense.payerId);
-                return `
-                    <div class="expense-item" onclick="showExpenseDetail('${expense.id}')">
-                        <div class="expense-icon">${cat.icon}</div>
-                        <div class="expense-info">
-                            <div class="expense-title">${expense.title}</div>
-                            <div class="expense-meta">${payer?.name || 'نامشخص'} • ${cat.name}</div>
-                        </div>
-                        <div class="expense-amount">${formatNumber(expense.amount)}</div>
+            container.innerHTML = [...currentTrip.expenses].reverse().map(exp => {
+                const cat = getCategoryInfo(exp.category);
+                const payer = currentTrip.members.find(m => m.id === exp.payerId);
+                return `<div class="expense-item" onclick="showExpenseDetail('${exp.id}')">
+                    <div class="expense-icon">${cat.icon}</div>
+                    <div class="expense-info">
+                        <div class="expense-title">${exp.title}</div>
+                        <div class="expense-meta">${payer?.name || 'نامشخص'} • ${cat.name}</div>
                     </div>
-                `;
+                    <div class="expense-amount">${formatNumber(exp.amount)}</div>
+                </div>`;
             }).join('');
         }
 
         function renderMembersList() {
-            const container = document.getElementById('membersList');
-            
-            container.innerHTML = currentTrip.members.map(member => {
-                const balance = calculateMemberBalance(member.id);
-                const isAdmin = member.id === currentTrip.adminId;
-                return `
-                    <div class="member-item" onclick="showMemberDetail('${member.id}')">
-                        <div class="member-avatar">${member.avatar}</div>
-                        <div class="member-info">
-                            <div class="member-name">
-                                ${member.name}
-                                ${isAdmin ? '<span class="admin-badge">👑</span>' : ''}
-                            </div>
-                            <div class="member-balance ${balance >= 0 ? 'positive' : 'negative'}">
-                                ${balance >= 0 ? 'طلبکار' : 'بدهکار'}: ${formatNumber(Math.abs(balance))}
-                            </div>
+            document.getElementById('membersList').innerHTML = currentTrip.members.map(m => {
+                const balance = calculateMemberBalance(m.id);
+                return `<div class="member-item" onclick="showMemberDetail('${m.id}')">
+                    <div class="member-avatar">${m.avatar}</div>
+                    <div class="member-info">
+                        <div class="member-name">
+                            ${m.name}
+                            ${m.id === currentTrip.adminId ? '<span class="admin-badge">👑</span>' : ''}
+                        </div>
+                        <div class="member-balance ${balance >= 0 ? 'positive' : 'negative'}">
+                            ${balance >= 0 ? 'طلبکار' : 'بدهکار'}: ${formatNumber(Math.abs(balance))}
                         </div>
                     </div>
-                `;
+                </div>`;
             }).join('');
         }
 
         function renderSettlements() {
-            const container = document.getElementById('settlementList');
             const settlements = calculateSettlements();
+            const container = document.getElementById('settlementList');
             
             if (settlements.length === 0) {
-                container.innerHTML = '<div class="empty-state"><div class="empty-icon">✅</div><p>همه تسویه شده‌اند!</p></div>';
+                container.innerHTML = '<div class="empty-state"><div class="icon">✅</div><p>همه تسویه شده‌اند!</p></div>';
                 return;
             }
 
             container.innerHTML = settlements.map(s => `
                 <div class="settlement-item">
-                    <div class="settlement-from">
-                        <span class="settlement-avatar">${s.from.avatar}</span>
-                        <span>${s.from.name}</span>
+                    <div class="settlement-person">
+                        <div class="avatar">${s.from.avatar}</div>
+                        <div class="name">${s.from.name}</div>
                     </div>
                     <div class="settlement-arrow">
-                        <span class="settlement-amount">${formatNumber(s.amount)}</span>
-                        <span>←</span>
+                        <div class="amount">${formatNumber(s.amount)}</div>
+                        <div class="icon">←</div>
                     </div>
-                    <div class="settlement-to">
-                        <span class="settlement-avatar">${s.to.avatar}</span>
-                        <span>${s.to.name}</span>
+                    <div class="settlement-person">
+                        <div class="avatar">${s.to.avatar}</div>
+                        <div class="name">${s.to.name}</div>
                     </div>
                 </div>
             `).join('');
         }
 
         function renderReportStats() {
-            const container = document.getElementById('reportStats');
-            const totalExpenses = currentTrip.expenses.reduce((sum, e) => sum + e.amount, 0);
-            const avgExpense = currentTrip.expenses.length > 0 ? Math.round(totalExpenses / currentTrip.expenses.length) : 0;
+            const total = currentTrip.expenses.reduce((sum, e) => sum + e.amount, 0);
+            const avg = currentTrip.expenses.length > 0 ? Math.round(total / currentTrip.expenses.length) : 0;
+            const max = currentTrip.expenses.reduce((m, e) => e.amount > m.amount ? e : m, { amount: 0, title: '-' });
             
-            // بیشترین هزینه
-            const maxExpense = currentTrip.expenses.reduce((max, e) => e.amount > max.amount ? e : max, { amount: 0, title: '-' });
-            
-            container.innerHTML = `
-                <div class="report-stat-row">
-                    <span>💰 کل هزینه‌ها:</span>
-                    <strong>${formatNumber(totalExpenses)} تومان</strong>
-                </div>
-                <div class="report-stat-row">
-                    <span>📊 میانگین هر هزینه:</span>
-                    <strong>${formatNumber(avgExpense)} تومان</strong>
-                </div>
-                <div class="report-stat-row">
-                    <span>🔝 بیشترین هزینه:</span>
-                    <strong>${maxExpense.title} (${formatNumber(maxExpense.amount)})</strong>
-                </div>
-                <div class="report-stat-row">
-                    <span>👥 تعداد اعضا:</span>
-                    <strong>${toPersianDigits(currentTrip.members.length)} نفر</strong>
-                </div>
+            document.getElementById('reportStats').innerHTML = `
+                <div class="report-stat-row"><span>💰 کل هزینه‌ها:</span><strong>${formatNumber(total)} تومان</strong></div>
+                <div class="report-stat-row"><span>📊 میانگین:</span><strong>${formatNumber(avg)} تومان</strong></div>
+                <div class="report-stat-row"><span>🔝 بیشترین:</span><strong>${max.title} (${formatNumber(max.amount)})</strong></div>
+                <div class="report-stat-row"><span>👥 اعضا:</span><strong>${toPersian(currentTrip.members.length)} نفر</strong></div>
             `;
 
-            // بیشترین هزینه‌کنندگان
-            const topSpenders = document.getElementById('topSpenders');
-            const spenderStats = currentTrip.members.map(m => ({
+            const spenders = currentTrip.members.map(m => ({
                 ...m,
                 paid: calculateMemberPaid(m.id)
             })).sort((a, b) => b.paid - a.paid).slice(0, 3);
 
-            topSpenders.innerHTML = spenderStats.map((s, i) => `
+            document.getElementById('topSpenders').innerHTML = spenders.map((s, i) => `
                 <div class="top-spender-item">
                     <span class="rank">${['🥇', '🥈', '🥉'][i]}</span>
                     <span class="spender-avatar">${s.avatar}</span>
@@ -3176,10 +2354,8 @@
 
             const ctx = canvas.getContext('2d');
             
-            // محاسبه هزینه‌ها بر اساس دسته‌بندی
             const categoryTotals = {};
             CATEGORIES.forEach(cat => categoryTotals[cat.id] = 0);
-            
             currentTrip.expenses.forEach(e => {
                 categoryTotals[e.category] = (categoryTotals[e.category] || 0) + e.amount;
             });
@@ -3188,28 +2364,22 @@
             const labels = CATEGORIES.filter(cat => categoryTotals[cat.id] > 0).map(cat => cat.name);
             const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD'];
 
-            if (expenseChart) {
-                expenseChart.destroy();
-            }
+            if (expenseChart) expenseChart.destroy();
 
             if (data.length === 0) {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.font = '16px Vazirmatn';
-                ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text-muted');
+                ctx.font = '14px Vazirmatn';
+                ctx.fillStyle = '#94A3B8';
                 ctx.textAlign = 'center';
-                ctx.fillText('داده‌ای برای نمایش وجود ندارد', canvas.width / 2, canvas.height / 2);
+                ctx.fillText('داده‌ای وجود ندارد', canvas.width / 2, canvas.height / 2);
                 return;
             }
 
             expenseChart = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
-                    labels: labels,
-                    datasets: [{
-                        data: data,
-                        backgroundColor: colors.slice(0, data.length),
-                        borderWidth: 0
-                    }]
+                    labels,
+                    datasets: [{ data, backgroundColor: colors.slice(0, data.length), borderWidth: 0 }]
                 },
                 options: {
                     responsive: true,
@@ -3219,7 +2389,7 @@
                             position: 'bottom',
                             labels: {
                                 font: { family: 'Vazirmatn', size: 12 },
-                                color: getComputedStyle(document.documentElement).getPropertyValue('--text-primary'),
+                                color: '#CBD5E1',
                                 padding: 15
                             }
                         }
@@ -3228,7 +2398,7 @@
             });
         }
 
-        // ==================== خروجی PDF ====================
+        // ========== PDF EXPORT ==========
         async function exportToPDF() {
             showLoading();
             
@@ -3236,157 +2406,122 @@
                 const { jsPDF } = window.jspdf;
                 const doc = new jsPDF('p', 'mm', 'a4');
                 
-                // تنظیم فونت
-                doc.setFont('helvetica');
-                
                 let y = 20;
-                const pageWidth = doc.internal.pageSize.getWidth();
                 const margin = 15;
-                const contentWidth = pageWidth - (margin * 2);
+                const pageWidth = doc.internal.pageSize.getWidth();
                 
-                // عنوان
-                doc.setFontSize(24);
-                doc.setTextColor(52, 152, 219);
+                doc.setFontSize(22);
+                doc.setTextColor(13, 148, 136);
                 doc.text('Safarino Report', pageWidth / 2, y, { align: 'center' });
-                y += 15;
+                y += 12;
                 
-                // نام سفر
-                doc.setFontSize(16);
-                doc.setTextColor(44, 62, 80);
+                doc.setFontSize(14);
+                doc.setTextColor(51, 65, 85);
                 doc.text(`Trip: ${currentTrip.name}`, pageWidth / 2, y, { align: 'center' });
                 y += 8;
+                
                 doc.setFontSize(10);
-                doc.setTextColor(127, 140, 141);
+                doc.setTextColor(100, 116, 139);
                 doc.text(`Date: ${currentTrip.date} | Members: ${currentTrip.members.length}`, pageWidth / 2, y, { align: 'center' });
                 y += 15;
                 
-                // خط جداکننده
-                doc.setDrawColor(189, 195, 199);
+                doc.setDrawColor(203, 213, 225);
                 doc.line(margin, y, pageWidth - margin, y);
                 y += 10;
                 
-                // آمار کلی
-                const totalExpenses = currentTrip.expenses.reduce((sum, e) => sum + e.amount, 0);
-                const perPerson = Math.round(totalExpenses / currentTrip.members.length);
+                const total = currentTrip.expenses.reduce((s, e) => s + e.amount, 0);
+                const perPerson = Math.round(total / currentTrip.members.length);
                 
                 doc.setFontSize(12);
-                doc.setTextColor(44, 62, 80);
+                doc.setTextColor(51, 65, 85);
                 doc.text('Summary:', margin, y);
-                y += 8;
+                y += 7;
                 
                 doc.setFontSize(10);
-                doc.text(`Total Expenses: ${totalExpenses.toLocaleString()} Toman`, margin + 5, y);
-                y += 6;
-                doc.text(`Per Person: ${perPerson.toLocaleString()} Toman`, margin + 5, y);
-                y += 6;
-                doc.text(`Number of Expenses: ${currentTrip.expenses.length}`, margin + 5, y);
-                y += 15;
+                doc.text(`Total: ${total.toLocaleString()} Toman`, margin + 5, y); y += 5;
+                doc.text(`Per Person: ${perPerson.toLocaleString()} Toman`, margin + 5, y); y += 5;
+                doc.text(`Expenses: ${currentTrip.expenses.length}`, margin + 5, y); y += 12;
                 
-                // لیست اعضا و وضعیت
                 doc.setFontSize(12);
-                doc.text('Members Balance:', margin, y);
+                doc.text('Member Balances:', margin, y);
+                y += 7;
+                
+                currentTrip.members.forEach(m => {
+                    const bal = calculateMemberBalance(m.id);
+                    doc.setFontSize(10);
+                    doc.text(`${m.name}: ${bal >= 0 ? 'Creditor' : 'Debtor'} ${Math.abs(bal).toLocaleString()}`, margin + 5, y);
+                    y += 5;
+                    if (y > 270) { doc.addPage(); y = 20; }
+                });
                 y += 8;
                 
-                currentTrip.members.forEach(member => {
-                    const balance = calculateMemberBalance(member.id);
-                    const status = balance >= 0 ? 'Creditor' : 'Debtor';
-                    doc.setFontSize(10);
-                    doc.text(`${member.name}: ${status} ${Math.abs(balance).toLocaleString()} Toman`, margin + 5, y);
-                    y += 6;
-                    
-                    if (y > 270) {
-                        doc.addPage();
-                        y = 20;
-                    }
-                });
-                y += 10;
-                
-                // تسویه حساب‌ها
                 const settlements = calculateSettlements();
                 if (settlements.length > 0) {
                     doc.setFontSize(12);
                     doc.text('Settlements:', margin, y);
-                    y += 8;
+                    y += 7;
                     
                     settlements.forEach(s => {
                         doc.setFontSize(10);
-                        doc.text(`${s.from.name} -> ${s.to.name}: ${s.amount.toLocaleString()} Toman`, margin + 5, y);
-                        y += 6;
-                        
-                        if (y > 270) {
-                            doc.addPage();
-                            y = 20;
-                        }
+                        doc.text(`${s.from.name} -> ${s.to.name}: ${s.amount.toLocaleString()}`, margin + 5, y);
+                        y += 5;
+                        if (y > 270) { doc.addPage(); y = 20; }
                     });
+                    y += 8;
                 }
-                y += 10;
                 
-                // لیست هزینه‌ها
                 if (currentTrip.expenses.length > 0) {
                     doc.setFontSize(12);
-                    doc.text('Expenses List:', margin, y);
-                    y += 8;
+                    doc.text('Expenses:', margin, y);
+                    y += 7;
                     
-                    currentTrip.expenses.forEach((expense, index) => {
-                        const payer = currentTrip.members.find(m => m.id === expense.payerId);
-                        const cat = getCategoryInfo(expense.category);
-                        
+                    currentTrip.expenses.forEach((exp, i) => {
+                        const payer = currentTrip.members.find(m => m.id === exp.payerId);
                         doc.setFontSize(9);
-                        doc.text(`${index + 1}. ${expense.title}`, margin + 5, y);
+                        doc.text(`${i + 1}. ${exp.title} - ${exp.amount.toLocaleString()} (${payer?.name || '-'})`, margin + 5, y);
                         y += 5;
-                        doc.setFontSize(8);
-                        doc.setTextColor(127, 140, 141);
-                        doc.text(`   ${cat.name} | Paid by: ${payer?.name || 'Unknown'} | Amount: ${expense.amount.toLocaleString()}`, margin + 5, y);
-                        doc.setTextColor(44, 62, 80);
-                        y += 7;
-                        
-                        if (y > 270) {
-                            doc.addPage();
-                            y = 20;
-                        }
+                        if (y > 270) { doc.addPage(); y = 20; }
                     });
                 }
                 
-                // فوتر
-                const pageCount = doc.internal.getNumberOfPages();
-                for (let i = 1; i <= pageCount; i++) {
+                const pages = doc.internal.getNumberOfPages();
+                for (let i = 1; i <= pages; i++) {
                     doc.setPage(i);
                     doc.setFontSize(8);
-                    doc.setTextColor(127, 140, 141);
-                    doc.text('Generated by Safarino | Designed by Mohammad Abbasi', pageWidth / 2, 290, { align: 'center' });
+                    doc.setTextColor(100, 116, 139);
+                    doc.text('Safarino | Mohammad Abbasi', pageWidth / 2, 290, { align: 'center' });
                 }
                 
-                // دانلود
-                doc.save(`Safarino_${currentTrip.name}_Report.pdf`);
-                
+                doc.save(`Safarino_${currentTrip.name}.pdf`);
                 hideLoading();
-                showToast('گزارش PDF دانلود شد 📥', 'success');
+                showToast('PDF دانلود شد 📥', 'success');
                 
-            } catch (error) {
+            } catch (err) {
                 hideLoading();
-                console.error('PDF Error:', error);
+                console.error(err);
                 showToast('خطا در ایجاد PDF', 'error');
             }
         }
 
-        // ==================== راه‌اندازی ====================
+        // ========== INIT ==========
         function init() {
-            initSettings();
-            initNavigation();
+            // Load theme
+            const savedTheme = localStorage.getItem('theme') || 'night';
+            setTheme(savedTheme);
             
-            // رندر آواتارها
+            // Render avatar grids
             renderAvatarGrid('adminAvatarGrid');
             renderAvatarGrid('joinAvatarGrid');
             renderAvatarGrid('newMemberAvatarGrid');
             
-            // بررسی سفر ذخیره شده
+            // Check for saved trip
             const savedUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
-            const recentTrips = JSON.parse(localStorage.getItem('recentTrips') || '[]');
+            const recent = JSON.parse(localStorage.getItem('recentTrips') || '[]');
             
-            if (savedUser && recentTrips.length > 0) {
-                const lastTrip = loadFromStorage(recentTrips[0].code);
-                if (lastTrip && lastTrip.members.find(m => m.id === savedUser.id)) {
-                    currentTrip = lastTrip;
+            if (savedUser && recent.length > 0) {
+                const trip = loadFromStorage(recent[0].code);
+                if (trip && trip.members.find(m => m.id === savedUser.id)) {
+                    currentTrip = trip;
                     currentUser = savedUser;
                     showTripScreen();
                     hideLoading();
@@ -3398,25 +2533,31 @@
             hideLoading();
         }
 
-        // فرمت خودکار مبلغ
-        document.addEventListener('input', (e) => {
-            if (e.target.id === 'expenseAmount' || e.target.id === 'editExpenseAmount' || e.target.classList.contains('custom-split-input')) {
-                const num = parseNumber(e.target.value);
-                if (num > 0) {
-                    e.target.value = formatNumber(num);
-                }
+        // Close settings on outside click
+        document.addEventListener('click', (e) => {
+            const panel = document.getElementById('settingsPanel');
+            if (panel.classList.contains('show') && !panel.contains(e.target) && !e.target.closest('[onclick*="toggleSettings"]')) {
+                panel.classList.remove('show');
             }
         });
 
-        // بستن مودال با کلیک بیرون
+        // Close modal on backdrop click
         document.addEventListener('click', (e) => {
-            if (e.target.classList.contains('modal')) {
-                e.target.classList.remove('show');
+            if (e.target.classList.contains('modal') && e.target.classList.contains('active')) {
+                e.target.classList.remove('active');
                 document.body.style.overflow = '';
             }
         });
 
-        // شروع برنامه
+        // Auto-format numbers
+        document.addEventListener('input', (e) => {
+            if (e.target.id === 'expenseAmount' || e.target.id === 'editExpenseAmount') {
+                const num = parseNumber(e.target.value);
+                if (num > 0) e.target.value = formatNumber(num);
+            }
+        });
+
+        // Start app
         document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
